@@ -1,0 +1,48 @@
+<div *ngIf="isLoggedIn">
+    <app-main-carousel [slides]="slides"></app-main-carousel> 
+</div>
+
+
+<section #hero id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+        <div *ngIf="!isLoggedIn" style="text-align: center;padding: 10px;">
+            <input class="rounded" placeholder="Search Product" (keyup)="applyFilter($event)" #input>
+        </div>
+
+        <div class="row icon-boxes" >
+            <div (click)="goToCustomised()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <div class="icon"><img style="height: auto;width: 100%;" src="https://www.bee-original.com/wp-content/uploads/2018/10/custom-solutions.gif" alt=""/></div>
+                    <h4 class="title">
+                        <a href="/customisedQuotation" data-toggle="tooltip" title="VIEW CUSTOMISED  QUOTATION">VIEW CUSTOMISED  QUOTATION</a>
+                    </h4>
+                    <p class="description"> 
+                        Click here to view and place order for all tailor made quotations enquired by you.
+                    </p>
+                </div>
+            </div>
+          
+            <div style="padding-bottom: 20px !important;cursor: pointer;" (click)="goToProduct(product)" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" *ngFor="let product of products"  data-aos="zoom-in" data-aos-delay="200" >
+                 <div class="icon-box">
+                    <div class="icon" *ngIf="product.prodImages !== undefined">
+                         <img style="height: 200px;width: 100%;" [src]="product?.prodImages[0]?.large"/>
+                    </div>
+                    <div class="icon" *ngIf="product.prodImages === undefined">
+                        <img style="height: auto;width: 100%;" src="../../../assets/images/others/No_Image_Available.jpg"/>
+                    </div>
+                    <h4 class="title">
+                        <a *ngIf="product?.prodName == 'Leaflet/Pamphlate/Flyer/Brochure'"  (click)="goToProduct(product)"  data-toggle="tooltip" title="Leaflet/Pamphlate/Flyer/Brochure">LEAFLET/BROCHURE</a>
+                        <a *ngIf="product?.prodName == 'Cards Invitation/Wedding/Birthday'"  (click)="goToProduct(product)"  data-toggle="tooltip" title="Cards Invitation/Wedding/Birthday">CARDS</a>
+                        <a *ngIf="product?.prodName != 'Leaflet/Pamphlate/Flyer/Brochure' && product?.prodName != 'Cards Invitation/Wedding/Birthday'"  (click)="goToProduct(product)"  data-toggle="tooltip" title="{{product.prodName}}">{{product.prodName | uppercase}}</a>
+                    </h4>
+                    <p class="description">{{product.prodDescription}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+                
+
+                
+
+

@@ -1,0 +1,79 @@
+<!--<div class="main-slider" style="top: 15%;"><br><br><br>
+  <div class="swiper-container h-100" [swiper]="config">
+    <div class="swiper-wrapper h-100">      
+      <div *ngFor="let slide of slides" class="swiper-slide">
+        <div [attr.data-background]="slide.image" class="slide-item swiper-lazy">
+            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            <div class="mask"></div>  
+         
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination white"></div>
+    <button mat-mini-fab color="primary" class="swiper-button-prev swipe-arrow"><mat-icon>keyboard_arrow_left</mat-icon></button>
+    <button mat-mini-fab color="primary" class="swiper-button-next swipe-arrow"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  </div>
+</div>-->
+<br><br><br>
+<div id="carousel" class="carousel slide"   data-bs-touch="false"  data-interval="6000">
+<!--        <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+        </ol>-->
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                    <!-- 
+                    If you need more browser support use https://scottjehl.github.io/picturefill/
+                    If a picture looks blurry on a retina device you can add a high resolution like this
+                    <source srcset="img/blog-post-1000x600-2.jpg, blog-post-1000x600-2@2x.jpg 2x" media="(min-width: 768px)">
+
+                    What image sizes should you use? This can help - https://codepen.io/JacobLett/pen/NjramL
+                     -->
+                    <picture>
+                      <source srcset="../../../assets/images/carousel/2000x500_2.png" media="(min-width: 1400px)">
+                      <source srcset="../../../assets/images/carousel/1400x500_2.png" media="(min-width: 769px)">
+                       <source srcset="../../../assets/images/carousel/800x500_2.png" media="(min-width: 577px)">
+                      <img srcset="../../../assets/images/carousel/600x500_2.png" alt="responsive image" class="d-block img-fluid">
+                    </picture>
+                     
+
+<!--                    <div class="carousel-caption">
+                        <div>
+                            <h2>Welcome to Aaryan cards</h2>
+                            <p>All facilities available under single Roof</p>
+                            <span class="btn btn-sm btn-outline-secondary">View More</span>
+                        </div>
+                    </div>-->
+            </div>
+            <!-- /.carousel-item -->
+            <div class="carousel-item">
+               
+                    <picture>
+                      <source srcset="../../../assets/images/carousel/2000x500_1.png" media="(min-width: 1400px)">
+                      <source srcset="../../../assets/images/carousel/1400x500_1.png" media="(min-width: 769px)">
+                       <source srcset="../../../assets/images/carousel/800x500_1.png" media="(min-width: 577px)">
+                      <img srcset="../../../assets/images/carousel/600x500_1.png" alt="responsive image" class="d-block img-fluid">
+                    </picture>
+
+<!--                    <div class="carousel-caption justify-content-center align-items-center">
+                        <div>
+                            <h2>Every project begins with a sketch</h2>
+                            <p>We work as an extension of your business to explore solutions</p>
+                            <span class="btn btn-sm btn-outline-secondary">Our Process</span>
+                        </div>
+                    </div>-->
+                
+            </div>
+           
+            <!-- /.carousel-item -->
+        </div>
+        <!-- /.carousel-inner -->
+        <a class="carousel-control-prev" data-bs-target="#carousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+        </a>
+        <a class="carousel-control-next" data-bs-target="#carousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+        </a>
+    </div>

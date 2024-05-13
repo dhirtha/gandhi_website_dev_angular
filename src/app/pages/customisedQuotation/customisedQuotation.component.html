@@ -1,0 +1,467 @@
+
+<div *ngIf="!isMobileViewGlbal">  
+<mat-tab-group (selectedTabChange)="getQuote($event)">
+    <mat-tab  label="Customised Quotations"> 
+        <ng-template matTabContent>
+        <div *ngIf="listOfNonExpQuots.length > 0" class="example-table-container">
+           
+            <div>
+                <mat-form-field style="width:800px !important;margin-left: 10px;">
+                    <span matPrefix> <i class="fa fa-search"></i> &nbsp;</span>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" #inputNonExp>
+                </mat-form-field>
+            </div>
+            <table  mat-table [dataSource]="listOfNonExpQuot" class="mat-elevation-z8"
+                    matSort  matSortDirection="asc" matSortDisableClear>
+                    
+                <ng-container matColumnDef="quotationNo">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quote No.</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p style="margin: 2px !important;font-size:12px; color: #008000"><b> {{element.quotationNo}} </b></p>
+                        <p style="margin: 2px !important;font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Leaflet/Pamphlate/Flyer/Brochure'">Leaflet/Brochure</p>
+                        <p style="margin: 2px !important;font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Cards Invitation/Wedding/Birthday'">Cards</p>
+                        <p style="margin: 2px !important;font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName != 'Leaflet/Pamphlate/Flyer/Brochure' && element.quotEnquiry.enqProductName != 'Cards Invitation/Wedding/Birthday'">{{element.quotEnquiry.enqProductName}}</p>
+                        <p style="margin: 2px !important;font-size: 9px; color: orange"><b>Expiry: {{element.stringExpDt.split("$")[0]}} {{element.stringExpDt.split("$")[1]}}</b></p>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderDetails">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 300px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Order Details</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div>&nbsp;</div>
+                        <ul style="list-style-type:square; color: gray;">
+                           <div style="margin: -15px !important;" *ngFor="let list of element.orderDetailsArr">
+                               <li *ngIf="list"><p style="font-size: 12px; color: black">{{list}}</p></li>
+                           </div>
+                        </ul>
+                        <div style="margin: -15px !important;">&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quantity</div>
+                    </th>
+                    <td align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.quotFinalQty}}</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="enqProdDeleveryDays">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 60px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Delivery<br> Days</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div style="width: 50px;text-align: center;"> {{element.quotEnquiry.enqProdDeleveryDays}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="deliveryThrough">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 150px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Dispatch Via</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div *ngIf="element.quotPreferdTravel.id != null" style="width: 140px;font-size: 12px; color: black">{{element.quotPreferdTravel.travelName | titlecase}} <br>({{element.quotPreferdTravel.travelPayMode}})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div *ngIf="element.quotPreferdTravel.id == null" style="width: 140px;font-size: 12px; color: black">By Hand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Amount</div>    
+                    </th>
+                    <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.totalQuotationRateWithGst}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>   
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="add">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Proceed</div>
+                    </th>
+                    <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> 
+                            <button mat-icon-button matTooltip="Quick Buy" (click)="buyQuot(element)" id="buy"><span class="material-icons">shopping_bag</span></button>&nbsp;&nbsp;
+                        </div>  
+                        
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div style="text-align: center;background-color: white;margin-top: 20px;">
+                <p style="letter-spacing: 1px;">For more customise quotations please whatsapp on <b style="color: #73AD21; font-size: 12px;letter-spacing: 0.2px;">8888890082</b></p>
+            </div>
+        </div>
+            <div style="text-align: center;background-color: white;margin-top: 20px;" *ngIf="listOfNonExpQuots.length == 0">
+                <p style="letter-spacing: 1px;">For more customise quotations please whatsapp on <b style="color: #73AD21; font-size: 12px;letter-spacing: 0.2px;">8888890082</b></p>
+            </div>
+        </ng-template>
+    </mat-tab>
+<mat-tab label="Expired Quotations">
+    <ng-template matTabContent>
+<div *ngIf="listOfExpQuot.oprsSubject.value.length > 0" class="example-table-container">
+    
+    <div>
+        <mat-grid-list cols="15" rowHeight="60px" style="margin: 0px;padding: 0px">
+            <mat-grid-tile colspan="13">
+                <mat-form-field style="width:700px !important;">
+                    <span matPrefix> <i class="fa fa-search"></i> &nbsp;</span>
+                    <input matInput  placeholder="Search" #input>
+                    <mat-hint style="font-size: smaller; color: #00A000">Filter By {{filterHint}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="2">
+                <button mat-raised-button [matMenuTriggerFor]="menu" color="primary" ><i class="fa fa-filter"></i>&nbsp;Filter By</button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item *ngFor="let item of filterByArray" (click)="onFilterClick(item)">
+                            <i class="fa fa-search"></i>&nbsp;&nbsp;
+                        <span style="color: gray; font-size: small"> {{ item.key }}</span>
+                    </button>
+                </mat-menu>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+
+    <table  mat-table [dataSource]="listOfExpQuot" class="mat-elevation-z8"
+            matSort  matSortDirection="asc" matSortDisableClear>
+
+                <ng-container matColumnDef="quotationNo">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quote No.</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p style="margin: 2px !important;font-size:12px; color: #008000"><b> {{element.quotationNo}} </b></p>
+                        <p style="margin: 2px !important;font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Leaflet/Pamphlate/Flyer/Brochure'">Leaflet/Brochure</p>
+                        <p style="margin: 2px !important;font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Cards Invitation/Wedding/Birthday'">Cards</p>
+                        <p style="margin: 2px !important;font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName != 'Leaflet/Pamphlate/Flyer/Brochure' && element.quotEnquiry.enqProductName != 'Cards Invitation/Wedding/Birthday'">{{element.quotEnquiry.enqProductName}}</p>
+                        <p style="margin: 2px !important;font-size: 9px; color: orange"><b>Expired: {{element.stringExpDt.split("$")[0]}} {{element.stringExpDt.split("$")[1]}}</b></p>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderDetails">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 300px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Order Details</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div>&nbsp;</div>
+                        <ul style="list-style-type:square; color: gray;">
+                           <div style="margin: -15px !important;" *ngFor="let list of element.orderDetailsArr">
+                               <li *ngIf="list"><p style="font-size: 12px; color: black">{{list}}</p></li>
+                           </div>
+                        </ul>
+                        <div style="margin: -15px !important;">&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quantity</div>
+                    </th>
+                    <td align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.quotFinalQty}}</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="enqProdDeleveryDays">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 60px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Delivery<br> Days</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div style="width: 50px;text-align: center;"> {{element.quotEnquiry.enqProdDeleveryDays}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="deliveryThrough">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 160px;text-align: center;margin-left: 25px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Dispatch Via</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div *ngIf="element.quotPreferdTravel.id != null" style="width: 140px;font-size: 12px; color: black">{{element.quotPreferdTravel.travelName | titlecase}} <br>({{element.quotPreferdTravel.travelPayMode}})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div *ngIf="element.quotPreferdTravel.id == null" style="width: 140px;font-size: 12px; color: black">By Hand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Amount</div>    
+                    </th>
+                    <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.totalQuotationRateWithGst}}</div>   
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsExp; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsExp;"></tr>
+            </table>
+<mat-chip color="accent" selected *ngIf="selection.selected.length>0">
+          &nbsp; <i class="fa fa-pencil-square-o"></i>
+    Selected :
+    {{selection.selected.length}}</mat-chip>
+<mat-paginator [length]="count" [pageSize]="lazyCriteria.pageSize"
+    [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+</div>
+
+<div *ngIf="listOfExpQuot.oprsSubject.value.length == 0">
+    <p style="color: darkgrey; letter-spacing: 1px;">No Expired Quotation Available Yet.</p>
+</div>
+    </ng-template>
+</mat-tab>
+
+</mat-tab-group>
+</div>
+
+<div *ngIf="isMobileViewGlbal"> 
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" *ngFor="let productItem of listOfNonExpQuots">
+            <div class="card h-100">
+                <p style="background-color: #73AD21; color: white;padding: 5px 10px 5px" class="card-img-top" alt="" *ngIf="productItem.quotEnquiry.enqProductName == 'Leaflet/Pamphlate/Flyer/Brochure'">Leaflet/Brochure</p>
+                <p style="background-color: #73AD21; color: white;padding: 5px 10px 5px" class="card-img-top" alt="" *ngIf="productItem.quotEnquiry.enqProductName == 'Cards Invitation/Wedding/Birthday'">Cards</p>
+                <p style="background-color: #73AD21; color: white;padding: 5px 10px 5px" class="card-img-top" alt="" *ngIf="productItem.quotEnquiry.enqProductName != 'Leaflet/Pamphlate/Flyer/Brochure' && productItem.quotEnquiry.enqProductName != 'Cards Invitation/Wedding/Birthday'">{{productItem.quotEnquiry.enqProductName}}</p>
+                <div style="display: inline-block;margin-left: 15px;">Quotation No: {{productItem.quotationNo}}</div>
+                <div class="card-body">
+                    <div class="card-text" style="font-size: 10px;">
+                        <ul style="list-style-type:square; color: gray;">
+                            <div style="margin: -15px !important;" *ngFor="let list of productItem.orderDetailsArr">
+                                <li *ngIf="list"><p style="font-size: 12px; color: black">{{list}}</p></li>
+                            </div>
+                        </ul>
+                        <div>
+                            <div style="text-align: right;font-weight: bold;font-size: 12px;">₹ {{productItem.totalQuotationRateWithGst}}/-</div>
+                            <small class="text-muted">
+                                <br>
+                                <sapn>Expiry: {{productItem.stringExpDt.split("$")[0]}} {{productItem.stringExpDt.split("$")[1]}}</sapn>
+                                <div style="width: 100px;text-align: right;width: 100%;margin-top: -30px;"> 
+                                    <button mat-icon-button matTooltip="Quick Buy" (click)="buyQuot(productItem)" id="buy"><span class="material-icons">shopping_bag</span></button>
+                                </div>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+Without Bootstrap
+
+
+<mat-tab-group   (selectedTabChange)="getQuote($event)">
+    <mat-tab  label="Customised Quotations"> 
+        <ng-template matTabContent>
+        <div *ngIf="listOfNonExpQuots.length > 0" class="example-table-container">
+           
+            <div>
+                <mat-form-field style="width:800px !important;margin-left: 10px;">
+                    <span matPrefix> <i class="fa fa-search"></i> &nbsp;</span>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search" #inputNonExp>
+                </mat-form-field>
+                    <p style="letter-spacing: 1px;left: 65%;position: absolute;margin-top: -50px;font-size: 10px;">For more customise quotations please whatsapp on Mob. No. <b style="color: #73AD21; font-size: 12px;letter-spacing: 0.2px;">8888890082</b></p>
+            </div>
+            <table  mat-table [dataSource]="listOfNonExpQuot" class="mat-elevation-z8"
+                    matSort  matSortDirection="asc" matSortDisableClear>
+                    
+                <ng-container matColumnDef="quotationNo">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quote No.</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p style="font-size:12px; color: #008000"><b> {{element.quotationNo}} </b></p>
+                        <p style="font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Leaflet/Pamphlate/Flyer/Brochure'">Leaflet/Brochure</p>
+                        <p style="font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Cards Invitation/Wedding/Birthday'">Cards</p>
+                        <p style="font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName != 'Leaflet/Pamphlate/Flyer/Brochure' && element.quotEnquiry.enqProductName != 'Cards Invitation/Wedding/Birthday'">{{element.quotEnquiry.enqProductName}}</p>
+                        <p style="font-size: 9px; color: orange"><b>Expiry: {{element.stringExpDt.split("$")[0]}} {{element.stringExpDt.split("$")[1]}}</b></p>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderDetails">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 300px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Order Details</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <ul style="list-style-type:square; color: gray;padding-top: 10px;padding-bottom: 10px;">
+                           <div *ngFor="let list of element.orderDetailsArr">
+                               <li *ngIf="list"><p style="font-size: 12px; color: black">{{list}}</p></li>
+                           </div>
+                        </ul>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quantity</div>
+                    </th>
+                    <td align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.quotFinalQty}}</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="enqProdDeleveryDays">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 60px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Delivery<br> Days</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div style="width: 50px;text-align: center;"> {{element.quotEnquiry.enqProdDeleveryDays}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="deliveryThrough">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 150px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Dispatch Via</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div *ngIf="element.quotPreferdTravel.id != null" style="width: 140px;font-size: 12px; color: black">{{element.quotPreferdTravel.travelName | titlecase}} <br>({{element.quotPreferdTravel.travelPayMode}})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div *ngIf="element.quotPreferdTravel.id == null" style="width: 140px;font-size: 12px; color: black">By Hand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Amount</div>    
+                    </th>
+                    <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.totalQuotationRateWithGst}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>   
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="add">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Proceed</div>
+                    </th>
+                    <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> 
+                            <button mat-icon-button matTooltip="Quick Buy" (click)="buyQuot(element)" id="buy"><span class="material-icons">shopping_bag</span></button>&nbsp;&nbsp;
+                        </div>  
+                        
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <div style="text-align: center;top: 50%;left: 20%;position: fixed;background-color: white;" *ngIf="listOfNonExpQuots.length == 0">
+            <p style="letter-spacing: 1px;">No customise quotations available please whatsapp job details for quotaion on Mob. No. <b style="color: #73AD21; font-size: 12px;">8888890082</b></p>
+        </div>
+        </ng-template>
+    </mat-tab>
+<mat-tab label="Expired Quotations">
+    <ng-template matTabContent>
+<div *ngIf="listOfExpQuot.oprsSubject.value.length > 0" class="example-table-container">
+    
+    <div>
+        <mat-grid-list cols="15" rowHeight="60px" style="margin: 0px;padding: 0px">
+            <mat-grid-tile colspan="13">
+                <mat-form-field style="width:700px !important;">
+                    <span matPrefix> <i class="fa fa-search"></i> &nbsp;</span>
+                    <input matInput  placeholder="Search" #input>
+                    <mat-hint style="font-size: smaller; color: #00A000">Filter By {{filterHint}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="2">
+                <button mat-raised-button [matMenuTriggerFor]="menu" color="primary" ><i class="fa fa-filter"></i>&nbsp;Filter By</button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item *ngFor="let item of filterByArray" (click)="onFilterClick(item)">
+                            <i class="fa fa-search"></i>&nbsp;&nbsp;
+                        <span style="color: gray; font-size: small"> {{ item.key }}</span>
+                    </button>
+                </mat-menu>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+
+    <table  mat-table [dataSource]="listOfExpQuot" class="mat-elevation-z8"
+            matSort  matSortDirection="asc" matSortDisableClear>
+
+                <ng-container matColumnDef="quotationNo">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quote No.</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p style="font-size:12px; color: #008000"><b> {{element.quotationNo}} </b></p>
+                        <p style="font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Leaflet/Pamphlate/Flyer/Brochure'">Leaflet/Brochure</p>
+                        <p style="font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName == 'Cards Invitation/Wedding/Birthday'">Cards</p>
+                        <p style="font-size: 12px; color:black;font-weight: bold;text-transform: uppercase;" *ngIf="element.quotEnquiry.enqProductName != 'Leaflet/Pamphlate/Flyer/Brochure' && element.quotEnquiry.enqProductName != 'Cards Invitation/Wedding/Birthday'">{{element.quotEnquiry.enqProductName}}</p>
+                        <p style="font-size: 9px; color: orange"><b>Expired: {{element.stringExpDt.split("$")[0]}} {{element.stringExpDt.split("$")[1]}}</b></p>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderDetails">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 300px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Order Details</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <ul style="list-style-type:square; color: gray;padding-top: 10px;padding-bottom: 10px;">
+                           <div *ngFor="let list of element.orderDetailsArr">
+                               <li *ngIf="list"><p style="font-size: 12px; color: black">{{list}}</p></li>
+                           </div>
+                        </ul>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Quantity</div>
+                    </th>
+                    <td align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.quotFinalQty}}</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="enqProdDeleveryDays">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 60px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Delivery<br> Days</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div style="width: 50px;text-align: center;"> {{element.quotEnquiry.enqProdDeleveryDays}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="deliveryThrough">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 160px;text-align: center;margin-left: 25px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Dispatch Via</div>
+                    </th>
+                    <td align="center" mat-cell *matCellDef="let element"> 
+                        <div *ngIf="element.quotPreferdTravel.id != null" style="width: 140px;font-size: 12px; color: black">{{element.quotPreferdTravel.travelName | titlecase}} <br>({{element.quotPreferdTravel.travelPayMode}})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div *ngIf="element.quotPreferdTravel.id == null" style="width: 140px;font-size: 12px; color: black">By Hand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef >
+                        <div style="width: 100px;text-align: center;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21"> Amount</div>    
+                    </th>
+                    <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                        <div style="width: 100px;text-align: center;"> {{element.totalQuotationRateWithGst}}</div>   
+                    </td>
+                </ng-container>
+
+<tr mat-header-row *matHeaderRowDef="displayedColumnsExp; sticky: true"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumnsExp;"></tr>
+</table>
+<mat-chip color="accent" selected *ngIf="selection.selected.length>0">
+          &nbsp; <i class="fa fa-pencil-square-o"></i>
+    Selected :
+    {{selection.selected.length}}</mat-chip>
+<mat-paginator [length]="count" [pageSize]="lazyCriteria.pageSize"
+    [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+</div>
+
+<div *ngIf="listOfExpQuot.oprsSubject.value.length == 0">
+    <p style="color: darkgrey; letter-spacing: 1px;">No Expired Quotation Available Yet.</p>
+</div>
+    </ng-template>
+</mat-tab>
+
+</mat-tab-group>-->
+
+
+
+

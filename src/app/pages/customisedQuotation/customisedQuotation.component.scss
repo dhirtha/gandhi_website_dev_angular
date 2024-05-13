@@ -1,0 +1,203 @@
+.cart-table.mat-table {
+    display: block;
+    overflow-x:auto;
+    .mat-row, .mat-header-row {
+        display: flex;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 24px;
+        min-width: 870px;
+    }
+    .mat-row{
+        min-height: 100px;
+    }
+    .mat-cell, .mat-header-cell {
+        padding: 0px;
+/*        flex: 1;
+        overflow: hidden;
+        word-wrap: break-word;*/
+    }
+    .mat-header-cell {
+        /*font-size: 14px;*/
+    }
+    .mat-cell{
+        img{
+            width: 100px;
+        }
+        .product-name{
+            color: inherit;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .grand-total{
+            font-weight: 500;
+            span:nth-child(3){
+                font-size: 16px;
+            }
+        }
+    }
+}
+.mat-header-cell {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mat-icon.empty-cart-icon{
+    font-size: 150px;
+    line-height: 150px;
+    height: 150px;
+    width: 150px;
+    vertical-align: middle;
+} 
+
+table{
+    width: 100%;
+}
+
+
+.mat-column-sn {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 5% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  text-align: left;
+}
+.mat-column-quotationNo {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 15% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  text-align: left;
+}
+.mat-column-orderDetails {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 30% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-quantity {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 8% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-align: center;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-enqProdDeleveryDays {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 5% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-deliveryThrough {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-amount {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-add {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.example-table-container {
+  position: relative;
+/*  min-height: 400px;
+  max-height: 450px;*/
+  height: 100vh;
+  overflow: auto;
+}
+
+
+#cart:hover {
+    background-color:#73AD21;
+    color:white;
+    border-color:#73AD21;
+}
+
+#buy:hover {
+    background-color:#73AD21;
+    color:white;
+    border-color:#73AD21;
+}

@@ -1,0 +1,110 @@
+<!--<p class="text-muted" style="margin-left: 40px;margin-rig: 40px;">Hello, <b>{{user?.custShopName}}</b>
+    From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a box below to view or edit information.
+</p>-->
+
+<!--<ngb-alert (close)="closeAlert(alert)" *ngFor="let alert of alerts" [type]="alert.type">{{
+    alert.message
+}}</ngb-alert>-->
+<section #hero id="hero" class="d-flex align-items-center">
+    
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row icon-boxes" >
+            <div (click)="goToOrders()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/account/orders">Upload Pending File</a>
+                    </h3>
+                    <span class="detail">Pending File </span><span style="background-color: red;color: white;font-weight: bolder;border-radius: 200%;padding: 5px;padding-top: 1px;padding-bottom: 1px;">{{pendingOrderFileCount}}</span>
+                </div> 
+            </div>
+            
+            <div (click)="goToAccountInfo()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/account/information">Company Information</a>
+                    </h3>
+                    <p class="detail" style="font-weight: bold;">{{user?.custShopName}}</p>
+                    <p class="detail">{{user?.custFirstName}} {{user?.custLastName}}</p>
+                    <p class="detail">{{getSession().email}}</p>
+                    <p class="detail">{{user?.userAddress?.addState}}, {{user?.userAddress?.addCity}}</p>
+                    <!--<p class="description"><a routerLink="/account/information" class="primary-text">Change password</a></p>-->
+                </div> 
+            </div>
+            
+            <div (click)="goToDeliveryAdd()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/account/addresses">Registered Travel / Transport Detail</a>
+                    </h3>
+                    <p class="detail">{{user?.userAddress.addState}}, {{user?.userAddress.addCity}}</p>
+                    <p class="detail">{{user?.userTravelRates[0]?.travelName}}</p>
+                </div> 
+            </div>
+            
+            <div (click)="goToOrders()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/account/orders">Order History</a>
+                    </h3>
+                    <p class="">Completed</p>
+                    <mat-progress-bar value="75" color="primary"></mat-progress-bar>
+                    <p class="mt-1">Processing</p>
+                    <mat-progress-bar value="25" color="accent"></mat-progress-bar>
+<!--                    <p class="mt-1">On hold</p>
+                    <mat-progress-bar value="65" color="warn"></mat-progress-bar>
+                    <p class="mt-1">Refunded</p>
+                    <mat-progress-bar value="25" color="primary"></mat-progress-bar>-->
+                </div> 
+            </div>
+            
+            <div (click)="goToStandardProducts()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/">Standard Products</a>
+                    </h3>
+                </div> 
+            </div>
+            
+            <div (click)="goToCustomisedProducts()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/customisedQuotation">Customised Quotations</a>
+                    </h3>
+                </div> 
+            </div>
+            
+            <div (click)="goToCart()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/cart">Cart</a>
+                    </h3>
+                </div> 
+            </div>
+            
+            <div (click)="goToFavoriteProducts()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/wishlist">Favorite Products</a>
+                    </h3>
+                </div> 
+            </div>
+            
+<!--            <div (click)="goToHelp()" style="padding-bottom: 20px !important;cursor: pointer;" class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200" >
+                <div class="icon-box">
+                    <h3 class="title">
+                        <a routerLink="/contact">Help</a>
+                    </h3>
+                    <p class="detail">EMAIL :</p>
+                    <p class="description">admin@aaryancards.com</p>
+                    <p class="description">aaryancards@gmail.com</p><br>
+                </div> 
+            </div>-->
+        </div>
+    </div>
+</section> 
+                
+
+                
+
+

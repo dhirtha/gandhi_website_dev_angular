@@ -1,0 +1,69 @@
+<br><br>
+<mat-card>
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
+            <h2 class="text-muted text-center">Enquiry</h2>
+            <form [formGroup]="registerForm">
+                <mat-form-field  appearance="outline" class="w-100 mt-2">
+                    <mat-label>Firm Name/Company/Shop Name</mat-label>
+                    <input matInput placeholder="Firm Name/Company/Shop Name" formControlName="shopName" required>
+                    <mat-error *ngIf="registerForm.controls.shopName.errors?.required">Full Name is required</mat-error>
+                    <mat-error *ngIf="registerForm.controls.shopName.hasError('minlength')">Full Name isn't long enough, minimum of 3 characters</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field  appearance="outline" class="w-100 mt-1">
+                    <mat-label>State</mat-label>
+                    <input type="text" matInput [formControl]="stateCtrl" [(ngModel)]="custState" [matAutocomplete]="state">
+                    <mat-autocomplete #state="matAutocomplete">
+                        <mat-option *ngFor="let state of filteredState | async" (onSelectionChange)="filterCities(state, $event)" [value]="state.name">
+                            {{state.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="w-100 mt-1">
+                    <mat-label>District / City</mat-label>
+                    <input type="text" matInput [formControl]="cityCtrl" [(ngModel)]="custCity" [matAutocomplete]="city">
+                    <mat-autocomplete #city="matAutocomplete">
+                        <mat-option *ngFor="let city of filteredCity | async" [value]="city.name">
+                            {{city.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="w-100 mt-1">
+                    <mat-label>Pincode</mat-label>
+                    <input matInput placeholder="Pincode" formControlName="pincode" required>
+                    <mat-error *ngIf="registerForm.controls.pincode.errors?.required">Pincode is required</mat-error>
+                    <mat-error *ngIf="registerForm.controls.pincode.hasError('minLength')">Minimum 6 digit required</mat-error>
+                    <mat-error *ngIf="registerForm.controls.pincode.hasError('maxLength')">Maximum 6 digit required</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="w-100 mt-1">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Email" autocomplete="off" formControlName="email" required>
+                    <mat-error *ngIf="registerForm.controls.email.errors?.required">Email is required</mat-error>
+                    <mat-error *ngIf="registerForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                </mat-form-field>
+                            
+                <mat-form-field appearance="outline" class="w-100 mt-1">
+                    <mat-label>Mobile No.</mat-label>
+                    <input matInput placeholder="Mobile No." formControlName="mobileNo" required>
+                    <mat-error *ngIf="registerForm.controls.mobileNo.errors?.required">Mobile No. is required</mat-error>
+                    <mat-error *ngIf="registerForm.controls.mobileNo.hasError('minLength')">Minimum 10 digit required</mat-error>
+                    <mat-error *ngIf="registerForm.controls.mobileNo.hasError('maxLength')">Maximum 12 digit required</mat-error>
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-100 mt-1">
+                    <mat-label>Enquiry Detail</mat-label> 
+                    <textarea matInput placeholder="Enquiry Detail" formControlName="message" required rows="7"></textarea> 
+                    <mat-error *ngIf="registerForm.controls.message.errors?.required">Message is required</mat-error>
+                </mat-form-field>
+                            
+                <div class="text-center mt-2">
+                    <button (click)="onRegisterFormSubmit()" mat-flat-button color="primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div> 
+</mat-card>

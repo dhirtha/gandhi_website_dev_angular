@@ -1,0 +1,53 @@
+<mat-tab-group>
+    <mat-tab label="Travel Destination">
+        <div class="p-2 mt-1">
+            <form [formGroup]="billingForm" (ngSubmit)="onBillingFormSubmit(billingForm.value)">     
+                <div fxLayout="row wrap">
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                        <mat-form-field class="w-100">
+                            <input type="text" placeholder="State" matInput [formControl]="stateCtrl" [(ngModel)]="custState" (onSelectionChange)="filterCities(custState, $event)" [matAutocomplete]="state">
+                            <mat-autocomplete #state="matAutocomplete">
+                                <mat-option *ngFor="let state of filteredState | async" (onSelectionChange)="filterCities(state, $event)" [value]="state.name">
+                                    {{state.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                        <mat-form-field class="w-100">
+                            <input type="text" placeholder="City" matInput [formControl]="cityCtrl" [(ngModel)]="custCity" [matAutocomplete]="city">
+                            <mat-autocomplete #city="matAutocomplete">
+                                <mat-option *ngFor="let city of filteredCity | async" (onSelectionChange)="getTravelLst(city.name, $event)" [value]="city.name">
+                                    {{city.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                        <mat-form-field class="w-100">
+                            <mat-select placeholder="Select Travel" [(ngModel)]="v_custTravel" formControlName="travel">
+                                <mat-option *ngFor="let ref of travelLst; let i = index" [value]="ref.id"  (onSelectionChange)="selectedDeliveryLocation($event, ref)">{{ref.travelName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="selectedTravelPaymentMode == 'Both'">
+                        <mat-select  [(value)]="paymentMode" placeholder="Payment Mode" style="width: 200px;">
+                            <mat-option value="Paid" (onSelectionChange)="selectedPaymentMode('Paid', $event)">Paid</mat-option>
+                            <mat-option value="ToPay" (onSelectionChange)="selectedPaymentMode('ToPay', $event)">ToPay</mat-option>
+                        </mat-select><br><br><br>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="100" class="px-1 text-right">
+                        <input type="checkbox" value="By Hand" [checked]="isByHand" (change)="isByHand = !isByHand" (change)="deliveryByHand($event)"> By Hand
+                    </div>
+                    <div fxFlex="100" class="text-center mt-2">
+                        <button mat-raised-button color="primary" (click)="onBillingFormSubmit(billingForm.value)">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </mat-tab>
+</mat-tab-group>

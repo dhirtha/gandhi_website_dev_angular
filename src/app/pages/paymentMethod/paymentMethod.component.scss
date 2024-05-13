@@ -1,0 +1,71 @@
+.example-ripple-container {
+/*    cursor: pointer;
+    text-align: center;
+    width: 400px;
+    height: 100px;
+    margin-left: 200px; */
+    position: static;
+    border: 3px solid #73AD21;
+    margin-bottom:5px;
+    border-radius: 25px;
+    width: 200px;
+    padding:10px;
+    letter-sapcing:1px;
+}
+#btnPayment:hover {
+   
+    background-color:#73AD21;
+    color:white;
+    border-color:#73AD21;
+}
+
+#btnPayment:active {
+    background-color:#73AD21;
+    color:white;
+    border-color:#73AD21;
+}
+#btnCredit:hover {
+   
+    background-color:orange;
+    color:white;
+    border-color:orange;
+}
+
+#btnCredit:active {
+    background-color:#73AD21;
+    color:white;
+    border-color:#73AD21;
+}
+div.static {
+  position: static;
+  border: 3px solid #73AD21;
+  margin-bottom:5px;
+  border-radius: 25px;
+  width: 300px;
+  padding:10px;
+  letter-sapcing:1px;
+  &:hover {
+        background-color:#73AD21;
+        color:white;
+        border-color:#73AD21;
+    }
+}
+
+table{
+    width: 100%;
+}
+
+hr{
+    background-color: #eee;
+    border: 0 none;
+    color: #eee;
+    height: 1px;
+}
+
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: white;
+}

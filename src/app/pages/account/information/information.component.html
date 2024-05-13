@@ -1,0 +1,198 @@
+<div *ngIf="!isMobileViewGlbal" style="padding-left: 100px;padding-right: 100px;">
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
+            <h2 class="text-muted text-center">Account details</h2>
+            <form [formGroup]="infoForm">
+                <mat-form-field class="w-100 mt-2">
+                    <input matInput placeholder="Firm Name" [(ngModel)]="customerObj.custShopName" autocomplete="off" formControlName="firmName" readonly="true" required>
+                    <mat-error *ngIf="infoForm.controls.firmName.errors?.required">Firm Name is required</mat-error>
+                    <mat-error *ngIf="infoForm.controls.firmName.hasError('minlength')">Firm Name isn't long enough, minimum of 2 characters</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-2">
+                    <input matInput placeholder="First Name" [(ngModel)]="customerObj.custFirstName" autocomplete="off" formControlName="firstName" required>
+                    <mat-error *ngIf="infoForm.controls.firstName.errors?.required">First Name is required</mat-error>
+                    <mat-error *ngIf="infoForm.controls.firstName.hasError('minlength')">First Name isn't long enough, minimum of 2 characters</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput placeholder="Last Name" [(ngModel)]="customerObj.custLastName" autocomplete="off" formControlName="lastName" required>
+                    <mat-error *ngIf="infoForm.controls.lastName.errors?.required">Last Name is required</mat-error>
+                    <mat-error *ngIf="infoForm.controls.lastName.hasError('minlength')">Last Name isn't long enough, minimum of 2 characters</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput placeholder="Email" [(ngModel)]="customerObj.email" autocomplete="off" formControlName="email" required readonly="true">
+                    <mat-error *ngIf="infoForm.controls.email.errors?.required">Email is required</mat-error>
+                    <mat-error *ngIf="infoForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput placeholder="Pin Code" [(ngModel)]="customerObj.userAddress.addPincode" autocomplete="off" (keypress)="keyboardKeyPress($event)" formControlName="pincode" required>
+                    <mat-error *ngIf="infoForm.controls.pincode.errors?.required">PinCode is required</mat-error>
+                    <mat-error *ngIf="infoForm.controls.pincode.hasError('minlength')">Pin Code isn't long enough, minimum of 6 characters</mat-error>
+                    <mat-error *ngIf="infoForm.controls.pincode.hasError('maxlength')">Pin Code is long enough, maximum of 6 characters</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput [(ngModel)]="customerObj.userAddress.addAppartmentName" autocomplete="off" placeholder="Flat, House no., Building, Company, Apartment" formControlName="buildingNo">
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput [(ngModel)]="customerObj.userAddress.addAreaName" autocomplete="off" placeholder="Area, Colony, Street, Sector, Village" formControlName="area">
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput [(ngModel)]="customerObj.userAddress.addLandmarkName" autocomplete="off" placeholder="Landmark e.g. near apollo hospital" formControlName="landmark">
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input type="text" placeholder="State" matInput [formControl]="stateCtrl" [(ngModel)]="custState" (onSelectionChange)="filterCities(custState, $event)" [matAutocomplete]="state">
+                    <mat-autocomplete #state="matAutocomplete">
+                        <mat-option *ngFor="let state of filteredState | async" (onSelectionChange)="filterCities(state, $event)" [value]="state.name">
+                            {{state.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input type="text" placeholder="City" matInput [formControl]="cityCtrl" [(ngModel)]="custCity" [matAutocomplete]="city">
+                    <mat-autocomplete #city="matAutocomplete">
+                        <mat-option *ngFor="let city of filteredCity | async" (onSelectionChange)="getTravelLst(city, $event)" [value]="city.name">
+                            {{city.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input [(ngModel)]="customerObj.custGstNo" autocomplete="off" matInput placeholder="GST No" formControlName="gstNo">
+                    <mat-error *ngIf="infoForm.controls.gstNo.errors">Invalid GST Number</mat-error>
+                </mat-form-field>
+                <div class="text-center mt-2">
+                    <button mat-raised-button color="primary" (click)="onInfoFormSubmit(infoForm.value)">Save</button>
+                </div> 
+            </form>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
+            <h2 class="text-muted text-center">Password change</h2>
+            <form [formGroup]="passwordForm">            
+                <mat-form-field class="w-100 mt-2">
+                    <input matInput placeholder="Current Password" autocomplete="off" formControlName="currentPassword" [type]="hideConfirmPass ? 'password' : 'text'" required>
+                    <i matSuffix class="fa fa-eye-slash" *ngIf="hideConfirmPass===true" (click)="hideConfirmPass = !hideConfirmPass"><mat-icon>visibility</mat-icon></i>
+                    <i matSuffix class="fa fa-eye" *ngIf="hideConfirmPass===false" (click)="hideConfirmPass = !hideConfirmPass"><mat-icon>visibility_off</mat-icon></i>
+                    <mat-error *ngIf="passwordForm.controls.currentPassword.errors?.required">Current Password is required</mat-error>
+                    <mat-error *ngIf="passwordForm.controls.currentPassword.hasError('minlength')">Current Password isn't long enough, minimum of 6 characters</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput placeholder="New Password" autocomplete="off" formControlName="newPassword" [type]="hideNewPass ? 'password' : 'text'" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}">
+                    <i matSuffix class="fa fa-eye-slash" *ngIf="hideNewPass===true" (click)="hideNewPass = !hideNewPass"><mat-icon>visibility</mat-icon></i>
+                    <i matSuffix class="fa fa-eye" *ngIf="hideNewPass===false" (click)="hideNewPass = !hideNewPass"><mat-icon>visibility_off</mat-icon></i>
+                    <mat-error *ngIf="passwordForm.controls.newPassword.errors?.required">New Password is required</mat-error>
+                    <mat-error *ngIf="passwordForm.controls.newPassword.hasError('pattern')">At least 8 characters(Must contains Lowercase letters, Uppercase letters, Numbers, Special characters)</mat-error>
+                </mat-form-field> 
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput placeholder="Confirm New Password" autocomplete="off" formControlName="confirmNewPassword" [type]="hideNewPass1 ? 'password' : 'text'" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}">
+                    <i matSuffix class="fa fa-eye-slash" *ngIf="hideNewPass1===true" (click)="hideNewPass1 = !hideNewPass1"><mat-icon>visibility</mat-icon></i>
+                    <i matSuffix class="fa fa-eye" *ngIf="hideNewPass1===false" (click)="hideNewPass1 = !hideNewPass1"><mat-icon>visibility_off</mat-icon></i>
+                    <mat-error *ngIf="passwordForm.controls.confirmNewPassword.errors?.required">Confirm New Password is required</mat-error>
+                    <mat-error *ngIf="passwordForm.controls.confirmNewPassword.hasError('pattern')">At least 8 characters(Must contains Lowercase letters, Uppercase letters, Numbers, Special characters)</mat-error>
+                </mat-form-field>
+                <div class="text-center mt-2">
+                    <button mat-raised-button color="primary" (click)="onPasswordFormSubmit(passwordForm.value)">Change</button>
+                </div>
+            </form>
+        </div>
+
+    </div> 
+</div>
+
+
+
+
+
+
+
+<div *ngIf="isMobileViewGlbal" fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
+        <h2 class="text-muted text-center">Account details</h2>
+        <form [formGroup]="infoForm">
+            <mat-form-field class="w-100 mt-2">
+                <input matInput placeholder="Firm Name" [(ngModel)]="customerObj.custShopName" formControlName="firmName" required>
+                <mat-error *ngIf="infoForm.controls.firmName.errors?.required">Firm Name is required</mat-error>
+                <mat-error *ngIf="infoForm.controls.firmName.hasError('minlength')">Firm Name isn't long enough, minimum of 2 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-2">
+                <input matInput placeholder="First Name" [(ngModel)]="customerObj.custFirstName" formControlName="firstName" required>
+                <mat-error *ngIf="infoForm.controls.firstName.errors?.required">First Name is required</mat-error>
+                <mat-error *ngIf="infoForm.controls.firstName.hasError('minlength')">First Name isn't long enough, minimum of 2 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="Last Name" [(ngModel)]="customerObj.custLastName" formControlName="lastName" required>
+                <mat-error *ngIf="infoForm.controls.lastName.errors?.required">Last Name is required</mat-error>
+                <mat-error *ngIf="infoForm.controls.lastName.hasError('minlength')">Last Name isn't long enough, minimum of 2 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="Email" [(ngModel)]="customerObj.email" formControlName="email" required readonly="true">
+                <mat-error *ngIf="infoForm.controls.email.errors?.required">Email is required</mat-error>
+                <mat-error *ngIf="infoForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="Pin Code" [(ngModel)]="customerObj.userAddress.addPincode" (keypress)="keyboardKeyPress($event)" formControlName="pincode" required>
+                <mat-error *ngIf="infoForm.controls.pincode.errors?.required">PinCode is required</mat-error>
+                <mat-error *ngIf="infoForm.controls.pincode.hasError('minlength')">Pin Code isn't long enough, minimum of 6 characters</mat-error>
+                <mat-error *ngIf="infoForm.controls.pincode.hasError('maxlength')">Pin Code is long enough, maximum of 6 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput [(ngModel)]="customerObj.userAddress.addAppartmentName" placeholder="Flat, House no., Building, Company, Apartment" formControlName="buildingNo">
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput [(ngModel)]="customerObj.userAddress.addAreaName" placeholder="Area, Colony, Street, Sector, Village" formControlName="area">
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput [(ngModel)]="customerObj.userAddress.addLandmarkName" placeholder="Landmark e.g. near apollo hospital" formControlName="landmark">
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input type="text" placeholder="State" matInput [formControl]="stateCtrl" [(ngModel)]="custState" (onSelectionChange)="filterCities(custState, $event)" [matAutocomplete]="state">
+                <mat-autocomplete #state="matAutocomplete">
+                    <mat-option *ngFor="let state of filteredState | async" (onSelectionChange)="filterCities(state, $event)" [value]="state.name">
+                        {{state.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input type="text" placeholder="City" matInput [formControl]="cityCtrl" [(ngModel)]="custCity" [matAutocomplete]="city">
+                <mat-autocomplete #city="matAutocomplete">
+                    <mat-option *ngFor="let city of filteredCity | async" (onSelectionChange)="getTravelLst(city, $event)" [value]="city.name">
+                        {{city.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input [(ngModel)]="customerObj.custGstNo" matInput placeholder="GST No" formControlName="gstNo">
+                <mat-error *ngIf="infoForm.controls.gstNo.errors">Invalid GST Number</mat-error>
+            </mat-form-field>
+            <div class="text-center mt-2">
+                <button mat-raised-button color="primary" (click)="onInfoFormSubmit(infoForm.value)">Save</button>
+            </div> 
+        </form>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
+        <h2 class="text-muted text-center">Password change</h2>
+        <form [formGroup]="passwordForm">            
+            <mat-form-field class="w-100 mt-2">
+                <input matInput placeholder="Current Password" autocomplete="off" formControlName="currentPassword" [type]="hideConfirmPass ? 'password' : 'text'" required>
+                <i matSuffix class="fa fa-eye-slash" *ngIf="hideConfirmPass===true" (click)="hideConfirmPass = !hideConfirmPass"><mat-icon>visibility</mat-icon></i>
+                <i matSuffix class="fa fa-eye" *ngIf="hideConfirmPass===false" (click)="hideConfirmPass = !hideConfirmPass"><mat-icon>visibility_off</mat-icon></i>
+                <mat-error *ngIf="passwordForm.controls.currentPassword.errors?.required">Current Password is required</mat-error>
+                <mat-error *ngIf="passwordForm.controls.currentPassword.hasError('minlength')">Current Password isn't long enough, minimum of 6 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="New Password" autocomplete="off" formControlName="newPassword" [type]="hideNewPass ? 'password' : 'text'" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}">
+                <i matSuffix class="fa fa-eye-slash" *ngIf="hideNewPass===true" (click)="hideNewPass = !hideNewPass"><mat-icon>visibility</mat-icon></i>
+                <i matSuffix class="fa fa-eye" *ngIf="hideNewPass===false" (click)="hideNewPass = !hideNewPass"><mat-icon>visibility_off</mat-icon></i>
+                <mat-error *ngIf="passwordForm.controls.newPassword.errors?.required">New Password is required</mat-error>
+                <mat-error *ngIf="passwordForm.controls.newPassword.hasError('pattern')">At least 8 characters(Must contains Lowercase letters, Uppercase letters, Numbers, Special characters)</mat-error>
+            </mat-form-field> 
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="Confirm New Password" autocomplete="off" formControlName="confirmNewPassword" [type]="hideNewPass1 ? 'password' : 'text'" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}">
+                <i matSuffix class="fa fa-eye-slash" *ngIf="hideNewPass1===true" (click)="hideNewPass1 = !hideNewPass1"><mat-icon>visibility</mat-icon></i>
+                <i matSuffix class="fa fa-eye" *ngIf="hideNewPass1===false" (click)="hideNewPass1 = !hideNewPass1"><mat-icon>visibility_off</mat-icon></i>
+                <mat-error *ngIf="passwordForm.controls.confirmNewPassword.errors?.required">Confirm New Password is required</mat-error>
+                <mat-error *ngIf="passwordForm.controls.confirmNewPassword.hasError('pattern')">At least 8 characters(Must contains Lowercase letters, Uppercase letters, Numbers, Special characters)</mat-error>
+            </mat-form-field>
+            <div class="text-center mt-2">
+                <button mat-raised-button color="primary" (click)="onPasswordFormSubmit(passwordForm.value)">Change</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,141 @@
+<mat-chip-list *ngIf="isEmptyWishlist">
+    <mat-chip color="warn" selected="true">YOU HAVE NO ITEMS IN WISH LIST.</mat-chip>
+</mat-chip-list>
+
+
+<div *ngIf="!isMobileViewGlbal">
+    <table *ngIf="appService.Data.wishList?.length > 0" mat-table [dataSource]="appService.Data.wishList" class="mat-elevation-z8"
+            matSort  matSortDirection="asc" matSortDisableClear>
+
+
+            <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div style="width: 100px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Name</div>    
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <div style="width: 100px;font-size: 12px;text-align: center;font-weight: bold;">{{element.productName}}</div>         
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Price">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div style="width: 80px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Price</div>    
+                </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <div style="width: 80px;font-size: 12px;text-align: center;">{{element.rate}}</div>          
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="orderDetails">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div style="width: 400px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Order Details</div>    
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <div>&nbsp;</div>
+                    <ul style="list-style-type:square; color: gray;">
+                       <div style="margin: -15px !important;" *ngFor="let list of element.orderDetailsArr">
+                           <li *ngIf="list"><p style="font-size: 12px; color: black">{{list}}</p></li>
+                       </div>
+                    </ul>
+                    <div style="margin: -15px !important;">&nbsp;</div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div style="width: 80px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Quantity</div>    
+                </th>
+                <td align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                    <div style="width: 80px;font-size: 12px;text-align: center;">{{element.quantity}}</div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Namune">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div style="width: 80px;font-weight: bold;font-size: 12px;text-transform:uppercase;color: #73AD21;text-align: center;">Namune</div>    
+                </th>
+                <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                    <div style="width: 80px;font-size: 12px;text-align: center;">
+                        <span> {{element.namune}} </span>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Total">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <!--<button mat-raised-button color="warn" (click)="clear()">Clear All</button>-->
+                </th>
+                <td  align="center" mat-cell class="mat-cell1" *matCellDef="let element"> 
+                    <div class="p-1">          
+                        <!--<button mat-mini-fab color="primary" (click)="addToCart(element)" matTooltip="Add to cart">-->
+                            <mat-icon style="cursor: pointer;" (click)="addToCart(element)">add_shopping_cart</mat-icon>&nbsp;&nbsp;&nbsp;
+                        <!--</button>&nbsp;&nbsp;&nbsp;-->
+                        <!--<button mat-mini-fab color="warn" (click)="remove(element)" matTooltip="Clear" class="remove">-->
+                            <mat-icon style="cursor: pointer;" (click)="remove(element)">delete_forever</mat-icon>
+                        <!--</button>-->
+                    </div>
+                </td>
+            </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+<div *ngIf="isMobileViewGlbal">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" *ngFor="let productItem of appService.Data.wishList">
+            <div class="card h-100">
+                <p style="background-color: #73AD21; color: white;padding: 5px 10px 5px" class="card-img-top" alt="" *ngIf="productItem?.productName == 'Leaflet/Pamphlate/Flyer/Brochure'" >
+                    LEAFLET/BROCHURE
+                </p>
+                <p style="background-color: #73AD21; color: white; padding: 5px 10px 5px" class="card-img-top" alt="" *ngIf="productItem?.productName == 'Cards Invitation/Wedding/Birthday'">
+                    CARDS
+                </p>
+                <p style="background-color: #73AD21; color: white; padding: 5px 10px 5px" class="card-img-top" alt="" *ngIf="productItem?.productName != 'Leaflet/Pamphlate/Flyer/Brochure' && productItem?.productName != 'Cards Invitation/Wedding/Birthday'">
+                    {{productItem?.productName | uppercase}}
+                </p>
+                <div class="card-body">
+                    <div>{{productItem.paperType}}</div>
+                    <div class="card-text" style="font-size: 10px;">
+                        <!--<p>-->
+                            <span>{{productItem.gsm}} GSM &nbsp;</span> 
+                            <span>{{productItem.size}} (inch)</span><br>
+                        <!--</p>-->
+                        <!--<p>-->
+                            <span>SIZE : </span><span style="color: black;">{{productItem.size}} (inch)</span><br>
+                        <!--</p>-->
+                        <!--<p>-->
+                            <span style="color: black;">{{productItem.printSide}}</span>
+                            <span>&nbsp; </span><span style="color: black;">{{productItem.printingColor}}</span><br>
+                        <!--</p>-->
+                        <!--<p *ngIf="productItem.laminationSide != 'N/A'">-->
+                            <span *ngIf="productItem.laminationSide != 'N/A'">LAM : {{productItem.laminationSide}} &nbsp; {{productItem.laminationType}}</span><br *ngIf="productItem.laminationSide != 'N/A'">
+                        <!--</p>-->
+                        <!--<p *ngIf="productItem.laminationType != 'N/A'">-->
+                            
+                        <!--</p>-->
+                        <!--<p>-->
+                            <span>QTY : </span><span>{{productItem.quantity}}</span>
+                        <!--</p>-->
+                        <!--<div *ngIf="isLoggedIn">-->
+                            <div>
+                                <div style="text-align: right;font-weight: bold;font-size: 12px;" *ngIf="productItem.rate == 0" style="color: transparent;text-shadow: 0 0 5px rgba(0,0,0,0.5);">9999</div>
+                                <div style="text-align: right;font-weight: bold;font-size: 12px;" *ngIf="productItem.rate != 0">₹ {{productItem.rate}}/-</div>
+                            </div>  
+                        <!--</div>-->
+                        
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">
+                        <div style="text-align: right;">
+                            <mat-icon style="cursor: pointer;" (click)="addToCart(productItem)">add_shopping_cart</mat-icon>&nbsp;&nbsp;&nbsp;
+                            <mat-icon style="cursor: pointer;" (click)="remove(productItem)">delete_forever</mat-icon>
+                        </div>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

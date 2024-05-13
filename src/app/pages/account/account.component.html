@@ -1,0 +1,44 @@
+<div class="account-wrapper mat-elevation-z1">
+    <router-outlet></router-outlet>
+</div>  
+
+
+
+
+
+<!--<mat-sidenav-container style="margin-top: -5px;">
+    <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="account-sidenav" perfectScrollbar>
+        <mat-nav-list class="mat-elevation-z1 h-100">
+            <mat-list-item *ngFor="let link of links">              
+                <mat-icon matListIcon class="mat-icon-sm">{{link.icon}}</mat-icon>
+                <a matLine [routerLink]="link.href" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}" (click)="sidenav.toggle()">{{ link.name }}</a>
+            </mat-list-item>
+            <mat-list-item>              
+                <mat-icon matListIcon class="mat-icon-sm">{{signOut.icon}}</mat-icon>
+                <a matLine (click)="logOut()" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{ signOut.name }}</a>
+            </mat-list-item>
+          
+            
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="account-content" ngClass.gt-sm="p-left">
+        <div style="height: 40px;margin-bottom: -10px;" fxLayout="row" fxLayoutAlign="space-between center" class="header-row mat-elevation-z1 text-muted">
+            <button *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <button *ngIf="sidenav._animationState == 'open'" mat-icon-button (click)="toggleSidenav()">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>  
+            <button *ngIf="sidenav._animationState == 'void'" mat-icon-button (click)="toggleSidenav()">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>  
+            <button *ngIf="sidenav._animationState != 'open' && sidenav._animationState != 'void'" mat-icon-button (click)="toggleSidenav()">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>  
+           
+        </div>
+        <div class="account-wrapper mat-elevation-z1">
+            <router-outlet></router-outlet>
+        </div>  
+    </mat-sidenav-content>
+</mat-sidenav-container>-->

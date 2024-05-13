@@ -1,0 +1,24 @@
+<!--<div class="text-center">-->
+    <div class="card text-center" style="border: none;">
+        <div style="color: gray;padding: 10px;margin-right: -32px;margin-left: -32px;margin-top: -25px;font-weight: bold;font-size: 20px;">{{isOtpFor}} Verification</div><br>
+        <div style="color: gray;font-size: 10px;padding: 0px;">OTP has been sent to your {{isOtpFor}}.<br>
+            <div style="font-weight: bold;" *ngIf="isOtpFor == 'Email'">{{this.pageParam.paramObj.customerObj.email}}</div>
+            <div style="font-weight: bold;" *ngIf="isOtpFor == 'Mobile'">{{this.pageParam.paramObj.customerObj.userMobileNo}}</div>
+            Please Enter it below</div><br>
+            
+            <div style="display: inline-block">
+                
+            <sapn *ngIf="isOtpFor == 'Email'" class="defOtpBox">E- </sapn>
+            <sapn *ngIf="isOtpFor == 'Mobile'" class="defOtpBox">S- </sapn>
+                <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" [config]="config"></ng-otp-input></div><br>
+        <button *ngIf="isOtpFor == 'Email' && isResendOtp" (click)="verifyEmail()" mat-flat-button color="primary">Resend OTP</button>
+        <button *ngIf="isOtpFor == 'Mobile' && isResendOtp" (click)="verifyMobile()" mat-flat-button color="primary">Resend OTP</button>
+        
+        <div style="text-align: right;font-weight: bold;color: blue;">{{time}}</div>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;<button (click)="close()" mat-flat-button >Close</button>
+    </div>
+<!--</div>-->
+    
+
+

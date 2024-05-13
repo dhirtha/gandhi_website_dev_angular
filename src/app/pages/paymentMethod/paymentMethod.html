@@ -1,0 +1,202 @@
+<div>
+    <div style="margin-top: -10px;text-align: right;">
+        <img (click)="close()" height="20px" width="20" src="../../../assets/images/others/close.png" alt=""/>
+    </div>
+    <div style="margin-top: -20px;text-align: left;">
+        <p style="font-weight: bold;font-size: 16px;margin-bottom: 20px">Select Payment Option</p>
+    </div>
+</div>
+
+        <div style="height: 300px;overflow: auto;">
+            <div style="font-size: 12px;" *ngFor="let product of appService.Data.cartList; let i = index">
+                <mat-card style="box-shadow: none !important;">
+                    <div>
+                        <span style="font-size: 12px;font-weight: bold;text-transform: uppercase;">{{product.productName}}</span>
+                        <div *ngFor="let list of product.orderDetailsArr">
+                            {{list}}
+                        </div>
+                        <div>Amt. ₹ <span style="font-size: 14px;">{{total[product.id + i]}}/-</span></div>
+                    </div>
+                </mat-card>
+                 <hr>
+            </div>
+        </div>
+        <div> 
+            <div style="color: gray;letter-spacing: 1px;">
+                <div *ngIf="data.dispatchInfo.productType == 'standard'">
+                    <div style="font-size: 12px;" *ngIf="data.dispatchInfo.byHand">
+                        {{data.user.custShopName}},  Pick Up From 686 Commercial Compound, Ghat Road, Nagpur - 440018.<br>
+                        Estimated Dispatch Date : {{data.dispatchInfo.estDelDate}}
+                    </div>
+                    <div style="font-size: 12px;" *ngIf="!data.dispatchInfo.byHand">
+                        {{data.user.custShopName}}, {{data.dispatchInfo.travel.travelName}}  ({{data.dispatchInfo.travel.travelPayMode}}), {{data.dispatchInfo.city}}, {{data.dispatchInfo.state}}.<br>
+                        Estimated Dispatch Date : {{data.dispatchInfo.estDelDate}} (via {{data.dispatchInfo.deliveryMethod}})
+                    </div>
+                </div>
+                <div *ngIf="data.dispatchInfo.productType == 'customised'">
+                    <div style="font-size: 12px;" *ngIf="data.dispatchInfo.byHand">
+                        Dispatch to: {{data.user.custShopName}},  Pick Up From 686 Commercial Compound, Ghat Road, Nagpur - 440018.<br>
+                        Estimated Dispatch Date : {{data.dispatchInfo.estDelDate}}
+                    </div>
+                    <div style="font-size: 12px;" *ngIf="!data.dispatchInfo.byHand">
+                        {{data.user.custShopName}}, {{data.dispatchInfo.travel.travelName}}  ({{data.dispatchInfo.travel.travelPayMode}}), {{data.dispatchInfo.city}}, {{data.dispatchInfo.state}}.<br>
+                        Estimated Dispatch Date : {{data.dispatchInfo.estDelDate}}
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+<!--            <div *ngIf="creditLimit != 0 && creditLimit != null && !isPayOnline" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                <button mat-raised-button (click)="creditPayment()" color="primary" >Next</button>
+            </div>
+            <div *ngIf="isPayOnline" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1" > 
+                <button mat-raised-button (click)="onlinePayment()" color="primary" >Payment</button>
+            </div>
+            <div *ngIf="creditLimit == 0 || creditLimit == null" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                <button mat-raised-button (click)="onlinePayment()" color="primary" >Payment</button>
+            </div>-->
+            
+            
+            <div *ngIf="walletAmount != 0" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+                <mat-chip-list aria-label="Fish selection"  style="text-align: center">
+                    <mat-chip style="text-align: center;padding: 15px;padding-bottom: 15px;font-size: 12px;">
+                        <div *ngIf="isPayFromWallet" style="margin-right: 0px;margin-left: -10px;font-size: 22px;" color="primary" name="checkmark-circle"><i class="bi bi-check-circle-fill" style="color: #73AD21;"></i>&nbsp;&nbsp;</div>
+                        <b>Use Wallet ₹ {{walletAmount}}/-</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <div fxLayoutAlign="center center" style="margin-top: -5px;margin-bottom: -20px;" *ngIf="availableCreditLimit > 0 && walletAmount != 0">
+                <mat-chip-list aria-label="Fish selection">
+                    <mat-chip style="padding: 15px;padding-bottom: 15px;font-size: 12px;">
+                        <!--<div *ngIf="isPayFromWallet" style="margin-right: 0px;margin-left: -10px;font-size: 22px;" color="primary" name="checkmark-circle"><i class="bi bi-check-circle-fill" style="color: #73AD21;"></i>&nbsp;&nbsp;</div>-->
+                        <b>Use Credit ₹ {{availableCreditLimit?.toFixed(2)}}/-</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <div *ngIf="isPayFromWallet" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                <button mat-raised-button (click)="walletPayment()" color="primary">Pay</button>
+            </div>
+
+            <div *ngIf="creditLimit != 0 && creditLimit != null && !isPayOnline && !isPayFromWallet" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                <mat-chip-list aria-label="Fish selection"  style="text-align: center">
+                    <mat-chip style="text-align: center;padding: 15px;padding-bottom: 15px;font-size: 12px;">
+                        <div style="margin-right: 0px;margin-left: -10px;font-size: 22px;" color="primary" name="checkmark-circle"><i class="bi bi-check-circle-fill" style="color: #73AD21;"></i>&nbsp;&nbsp;</div>
+                        <b>Use Credit ₹ {{availableCreditLimit?.toFixed(2)}}/-</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+            <div *ngIf="creditLimit != 0 && creditLimit != null && !isPayOnline && !isPayFromWallet" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                <button mat-raised-button (click)="creditPayment()" color="primary" >Next</button>
+            </div>
+
+            <div *ngIf="isPayOnline && !isPayFromWallet" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                <button mat-raised-button (click)="onlinePayment()" color="primary" >Payment</button>
+            </div>
+            <div *ngIf="!isPayFromWallet">
+                <div *ngIf="creditLimit == 0 || creditLimit == null" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+                    <button mat-raised-button (click)="onlinePayment()" color="primary" >Payment</button>
+                </div>
+            </div>
+
+            
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div>
+    <div style="margin-top: -10px;text-align: right;">
+        <img (click)="close()" height="20px" width="20" src="../../../assets/images/others/close.png" alt=""/>
+    </div>
+    <div style="margin-top: -20px;text-align: left;">
+        <p style="font-weight: bold;font-size: 14px;margin-bottom: 20px">Select Payment Option</p>
+    </div>
+</div>
+
+<mat-grid-list cols="1" rowHeight="500px">
+    <mat-grid-tile>
+        <div>
+            <div style="color: gray;letter-spacing: 1px;">
+                <div *ngIf="data.dispatchInfo.productType == 'standard'">
+                    <div style="font-size: 10px;" *ngIf="data.dispatchInfo.byHand">
+                        {{data.user.custShopName}},  Pick Up From 686 Commercial Compound, Ghat Road, Nagpur - 440018.
+                    </div>
+                    <div style="font-size: 10px;" *ngIf="!data.dispatchInfo.byHand">
+                        {{data.user.custShopName}}, {{data.dispatchInfo.travel.travelName}}  ({{data.dispatchInfo.travel.travelPayMode}}), {{data.dispatchInfo.city}}, {{data.dispatchInfo.state}}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        (via {{data.dispatchInfo.deliveryMethod}})
+                    </div>
+                </div>
+                <div *ngIf="data.dispatchInfo.productType == 'customised'">
+                    <div style="font-size: 10px;" *ngIf="data.dispatchInfo.byHand">
+                        Dispatch to: {{data.user.custShopName}},  Pick Up From 686 Commercial Compound, Ghat Road, Nagpur - 440018.
+                    </div>
+                    <div style="font-size: 10px;" *ngIf="!data.dispatchInfo.byHand">
+                        {{data.user.custShopName}}, {{data.dispatchInfo.travel.travelName}}  ({{data.dispatchInfo.travel.travelPayMode}}), {{data.dispatchInfo.city}}, {{data.dispatchInfo.state}}<br>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="creditLimit != 0 && creditLimit != null" (click)="creditPayment()" class="static" id="btnCredit" #btnCredit>
+                <p style="font-weight: bold;font-size: 14px;">Your Credit Limit</p>
+                <p  style="font-size: 12px;">Available Credit Limit :- ₹ {{availableCreditLimit}}/-</p>
+            </div>
+            <div (click)="onlinePayment()" class="static" id="btnPayment" #btnPayment>
+                <p style="font-weight: bold;font-size: 14px;">Online Pyments</p>
+                <p style="font-size: 12px;">UPI/Credit-Debit Card/Net Banking</p>
+            </div>
+            <div *ngIf="creditLimit != 0 && creditLimit != null && !isPayOnline" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1" style="margin-left: -50px;"> 
+                <button mat-raised-button (click)="creditPayment()" color="primary" >Next</button>
+            </div>
+            <div *ngIf="isPayOnline" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1" style="margin-left: -50px;"> 
+                <button mat-raised-button (click)="onlinePayment()" color="primary" >Payment</button>
+            </div>
+            <div *ngIf="creditLimit == 0 || creditLimit == null" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1" style="margin-left: -50px;"> 
+                <button mat-raised-button (click)="onlinePayment()" color="primary" >Payment</button>
+            </div>
+            
+        </div>
+    </mat-grid-tile>
+    
+    <mat-grid-tile>
+        <div style="height: 100px;overflow: auto;">
+            <div style="font-size: 10px;" *ngFor="let product of appService.Data.cartList">
+                <mat-card style="box-shadow: none !important;">
+                    <div>
+                        <span style="font-size: 10px;font-weight: bold;text-transform: uppercase;">{{product.productName}}</span>
+                        <div *ngFor="let list of product.orderDetailsArr">
+                            {{list}}
+                        </div>
+                        <div>Amt. ₹ <span style="font-size: 12px;">{{product.rate}}/-</span></div>
+                    </div>
+                </mat-card>
+                 <hr>
+            </div>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>-->
+
+

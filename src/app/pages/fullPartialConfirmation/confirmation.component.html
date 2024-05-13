@@ -1,0 +1,35 @@
+<div>
+    <div style="margin-top: -10px;text-align: right;">
+        <img (click)="close()" height="20px" width="20" src="../../../assets/images/others/close.png" alt=""/>
+    </div>
+    <div style="margin-top: -20px;text-align: left;">
+        <p style="font-weight: bold;font-size: 14px;margin-bottom: 20px">Select how much you want to pay</p>
+    </div>
+</div>
+
+<table>
+    <tr>
+        <td width="50%" style="border-right: 1px solid lightgray;">
+            <mat-card class="btnn" style="box-shadow: none !important;">
+                <button class="btnn" style="width: 200px;line-height: 2" mat-raised-button (click)="paymentType('Full')" color="primary" >
+                    Pay Full Payment<br>
+                    <span style="font-size: 18px;font-weight: bold;">{{ fullAmount | number : '1.2-2'}}/-</span>
+                </button>
+            </mat-card>
+        </td>
+        <td width="50%" *ngIf="paperAmount != 0">
+            <mat-card class="btnn" style="box-shadow: none !important;">
+                <button class="btnn" style="width: 200px;line-height: 2" mat-raised-button (click)="paymentType('Partial')" color="primary">
+                    Pay Minimum Amount<br>
+                    <span style="font-size: 18px;font-weight: bold;">{{ paperAmount | number : '1.2-2'}}/-</span>
+                </button>
+                
+                
+            </mat-card>
+            <span class="p-1 account-card-content" style="height: 50%">
+                <p>Please ensure that you deposit the balance amount before delivery date to avoid delay in delivery.</p>
+                <p>NOTE : YOU WILL NOT RECEIVE ANY REMINDER CALL TO DEPOSIT BALANCE PAYMENT</p>
+            </span>
+        </td>
+    </tr>
+</table>

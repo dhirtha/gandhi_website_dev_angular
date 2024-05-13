@@ -1,0 +1,51 @@
+<!--<div>
+    <div>
+        <span>GSM & Paper</span><br>
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip style="text-align: center;padding: 20px;padding-bottom: 20px;font-size: 10px;" *ngFor="let product of unqGsmPaper" (click)="getSelectedGsm(product)">
+                <div style="margin-right: 0px;margin-left: -15px;font-size: 20px;" *ngIf="product.isGsmPapSelected" color="primary" name="checkmark-circle"><i class="bi bi-check-circle-fill" style="color: #73AD21;"></i>&nbsp;&nbsp;</div>
+                {{product.gsm}}
+                <br>
+                {{product.paperType}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <hr />
+
+    <div>
+        <span>Print Side</span><br>
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip style="text-align: center;padding: 15px;padding-bottom: 15px;font-size: 10px;" *ngFor="let side of printSide" (click)="getPrintSide(side)">
+                <div style="margin-right: 0px;margin-left: -10px;font-size: 20px;" *ngIf="side.isPrintSideSelected" color="primary" name="checkmark-circle"><i class="bi bi-check-circle-fill" style="color: #73AD21;"></i>&nbsp;&nbsp;</div>
+                {{side.name}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+    
+    <hr *ngIf="unqSize.length != 0" />
+
+    <div *ngIf="unqSize.length != 0"><span>Sizes</span></div>
+    <div style="height: 280px;overflow: auto;">
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip style="text-align: center;padding: 15px;padding-bottom: 15px;font-size: 10px;" *ngFor="let size of unqSize" (click)="getSelectedSize(size)">
+                <div style="margin-right: 0px;margin-left: -10px;font-size: 20px;" *ngIf="size.isSizeSelected" color="primary" name="checkmark-circle"><i class="bi bi-check-circle-fill" style="color: #73AD21;"></i>&nbsp;&nbsp;</div>
+                {{size.size}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+
+
+    <div class = "bar bar-footer cards"><br>
+        <button color="primary" block="expand" (click)="filter1()">
+            <div slot="start" size="medium" color="light" name="search"></div>
+            Search
+        </button>
+    </div>
+
+</div>-->
+
+<div *ngFor="let lst of listtt"> 
+    {{lst}}
+</div>

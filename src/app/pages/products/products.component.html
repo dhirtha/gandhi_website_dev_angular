@@ -1,0 +1,438 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav" perfectScrollbar>
+
+        <mat-accordion displayMode="flat" multi="true">
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>Categories</h4>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let product of productList" class="categories-wrapper categories-dropdown" perfectScrollbar>
+                    <!--<app-category-list [categories]="categories" [categoryParentId]="0" (change)="onChangeCategory($event)"></app-category-list>-->
+                    <mat-card class="matcrd">
+                        <a style="text-decoration: none;color: black;cursor: pointer;" (click)="goToProduct(product)" class="image-link">
+                            {{product.prodName}}
+                        </a>
+                        <div class="divider mt-2"></div>
+                    </mat-card>
+                </div>
+            </mat-expansion-panel>
+
+            <!--            <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4>Price</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                                <span>From: <b>${{priceFrom}}</b></span>
+                                <span>To: <b>${{priceTo}}</b></span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">
+                                <mat-slider color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
+                                <mat-slider color="warn" max="2000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
+                            </div>
+                        </mat-expansion-panel>
+            
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4>Color</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-buttons">
+                                <button mat-raised-button *ngFor="let color of colors" [style.background]="color.name" (click)="color.selected = !color.selected">
+                                    <span *ngIf="!color.selected">&nbsp;</span>
+                                    <mat-icon *ngIf="color.selected">check</mat-icon>
+                                </button>
+                            </div>
+                        </mat-expansion-panel>
+            
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4>Size</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-buttons">
+                                <button mat-raised-button *ngFor="let size of sizes" (click)="size.selected = !size.selected" [class.selected]="size.selected">
+                                    {{size.name}}                      
+                                </button>
+                            </div>
+                        </mat-expansion-panel>
+            
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4>Condition</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="column">
+                                <mat-checkbox color="primary">New</mat-checkbox>
+                                <mat-checkbox color="primary">Used</mat-checkbox>
+                                <mat-checkbox color="primary">Not Specified</mat-checkbox>
+                            </div>
+                        </mat-expansion-panel>
+            
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4>Brands</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">                  
+                                <button mat-raised-button *ngFor="let brand of brands" (click)="brand.selected = !brand.selected" [class.selected]="brand.selected">
+                                    <img [src]="brand.image"/>
+                                </button>
+                            </div>
+                        </mat-expansion-panel>
+            
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h4>Now starting at $1379</h4>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                               <a [routerLink]="['/products/electronics']"><img src="assets/images/products/probook/2-medium.png" alt="" class="mw-100"></a>
+                            </div>
+                        </mat-expansion-panel>-->
+
+        </mat-accordion>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row mat-elevation-z1 text-muted">
+            <!--            <button *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>-->
+            <form method="get"  style="width:500px !important" class="search-form" fxLayout="row">
+                <input style="border: 2px solid lightgray;margin-left: 10px;border-radius: 20px;padding: 8px;" type="text" placeholder="Type to search..." (keyup)="applyFilter($event)" #input fxFlex>
+            </form>
+            <!--            <div>
+                            <a mat-button [matMenuTriggerFor]="sortMenu" #sortMenuTrigger="matMenuTrigger">
+                                {{sort}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+                            </a>
+                            <mat-menu #sortMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                                <span (mouseleave)="sortMenuTrigger.closeMenu()">
+                                    <button mat-menu-item *ngFor="let sort of sortings" (click)="changeSorting(sort)">
+                                        <span>{{sort}}</span>
+                                    </button>
+                                </span>
+                            </mat-menu>
+                        </div>-->
+            <div>
+                <!--                <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
+                                    Show {{count}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+                                </a>-->
+                <!--                <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                                    <span (mouseleave)="countsMenuTrigger.closeMenu()">
+                                        <button mat-menu-item *ngFor="let count of counts" (click)="changeCount(count)">
+                                            <span>{{count}}</span>
+                                        </button>
+                                    </span>
+                                </mat-menu>-->
+                <button mat-icon-button (click)="changeViewType('list', 100)">
+                        <mat-icon>view_list</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changeViewType('grid', 33.3)">
+                        <mat-icon>view_module</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changeViewType('grid', 25)">
+                        <mat-icon>view_comfy</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
+            <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page }" fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
+                <mat-card class="product-item text-center">
+                    <mat-chip-list *ngIf="product.discount">
+                        <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
+                    </mat-chip-list>
+                    <a (click)="goToProduct(product)" class="image-link">
+                        <!--<img [src]="product.images[0].medium" alt="">-->
+                        <div *ngIf="product.prodImages !== undefined">
+                            <img [src]="product?.prodImages[0]?.medium" class="swiper-lazy"/>
+                        </div>
+                    </a>
+                    <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.categoryId )?.name }}</h4>                                                                     
+                    <a (click)="goToProduct(product)" class="title text-truncate">
+                        {{product.prodName}}
+                    </a>
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                        <div fxLayout="column" fxLayoutAlign="center start">
+                            <!--                            <p class="old-price text-muted"><span *ngIf="product.oldPrice">${{product.oldPrice | number : '1.2-2'}}</span></p>
+                                                        <p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>-->
+                        </div>
+                        <app-rating [ratingsCount]="47" [ratingsValue]="3900" [direction]="'column'"></app-rating>
+                    </div>                            
+                    <!--<div class="divider mt-2"></div>-->
+                    <div class="icons">
+                        <!--<app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)"></app-controls>-->
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+        <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
+            <div  *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page }" fxFlex="100" class="col">
+                <!--<mat-card class="product-item">-->
+                    <div fxLayout="row wrap">
+<!--                    <div fxFlex="100" fxFlex.gt-xs="20" class="p-2">
+                            <mat-chip-list *ngIf="product.discount" class="list-view">
+                                <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
+                            </mat-chip-list>
+                            <a (click)="goToProduct(product)" class="image-link">
+                                <img [src]="product.prodImages[0].medium" class="swiper-lazy"/>
+                                <app-rating [ratingsCount]="47" [ratingsValue]="3900" [direction]="'column'"></app-rating>
+                            </a>
+                        </div>-->
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="p-0">
+                            <mat-accordion>
+                                <mat-expansion-panel style="background-color: #f8f9fa;" (opened)="getStandardProductLst(product)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <a (click)="goToProduct(product)" class="title" style="font-size: 12px !important;">
+                                                {{product.prodName}}
+                                            </a>
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            <!--<img [src]="product.prodImages[0].medium" class="swiper-lazy"/>-->
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="ScrollStyle">
+                                        <div *ngIf="product.showLamination && !product.showDoctFile">
+                                            <table mat-table [dataSource]="product.prodStdRates" class="mat-elevation-z8"
+                                                    matSort  matSortDirection="asc" matSortDisableClear>
+
+                                                <ng-container matColumnDef="paperType">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Paper Type</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.paperType}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="gsm">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>GSM</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.gsm}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="size">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Size</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.size}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="printSide">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Print Side</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.printSide}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="printingColor">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Printing Color</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.printingColor}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="laminationSide">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lamination Side</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <div *ngIf="element.laminationSide == 'N/A'"> 
+                                                            -
+                                                        </div>
+                                                        <div *ngIf="element.laminationSide != 'N/A'"> 
+                                                            {{element.laminationSide}} 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="laminationType">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lamination Type</th>
+                                                    <td mat-cell *matCellDef="let element"> 
+                                                        <div *ngIf="element.laminationType == 'N/A'"> 
+                                                            -
+                                                        </div>
+                                                        <div *ngIf="element.laminationType != 'N/A'"> 
+                                                            {{element.laminationType}} 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="quantity">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="rate">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate</th>
+                                                    <td mat-cell *matCellDef="let element"> <div *ngIf="isLoggedIn">{{element.rate}}</div> </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="process">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proceed</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <div class="py-1">
+                                                            <app-controls [product]="element" [type]="'all'"></app-controls> 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                                            </table>
+                                        </div>    
+
+                                        <div *ngIf="!product.showLamination && !product.showDoctFile">
+                                            <table mat-table [dataSource]="product.prodStdRates" class="mat-elevation-z8"
+                                                    matSort  matSortDirection="asc" matSortDisableClear>
+
+                                                <ng-container matColumnDef="paperType">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Paper Type</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.paperType}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="gsm">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>GSM</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.gsm}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="size">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Size</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.size}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="printSide">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Print Side</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.printSide}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="printingColor">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Printing Color</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.printingColor}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="quantity">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="rate">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate</th>
+                                                    <td mat-cell *matCellDef="let element"> <div *ngIf="isLoggedIn">{{element.rate}}</div> </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="process">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proceed</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <div class="py-1">
+                                                            <app-controls [product]="element" [type]="'all'"></app-controls> 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                                            </table>
+                                        </div>
+
+                                        <div *ngIf="product.showDoctFile">
+                                            <table mat-table [dataSource]="product.prodStdRates" class="mat-elevation-z8"
+                                                    matSort  matSortDirection="asc" matSortDisableClear>
+
+                                                <ng-container matColumnDef="paperType">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Paper Type</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.paperType}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="gsm">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>GSM</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.gsm}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="size">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Size</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.size}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="printSide">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Print Side</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.printSide}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="printingColor">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Printing Color</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.printingColor}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="laminationSide">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lamination Side</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <div *ngIf="element.laminationSide == 'N/A'"> 
+                                                            -
+                                                        </div>
+                                                        <div *ngIf="element.laminationSide != 'N/A'"> 
+                                                            {{element.laminationSide}} 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="laminationType">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lamination Type</th>
+                                                    <td mat-cell *matCellDef="let element"> 
+                                                        <div *ngIf="element.laminationType == 'N/A'"> 
+                                                            -
+                                                        </div>
+                                                        <div *ngIf="element.laminationType != 'N/A'"> 
+                                                            {{element.laminationType}} 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="postpress">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Punching Type & Clip</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.postpress}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="quantity">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="rate">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate</th>
+                                                    <td mat-cell *matCellDef="let element"> <div *ngIf="isLoggedIn">{{element.rate}}</div> </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="process">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proceed</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <div class="py-1">
+                                                            <app-controls [product]="element" [type]="'all'"></app-controls> 
+                                                        </div>
+                                                    </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                                            </table>
+                                        </div> 
+                                        <!--<mat-spinner *ngIf="spinner"></mat-spinner>-->
+                                    </div> 
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                           
+                        </div>
+                    </div>
+                <!--</mat-card>-->
+            </div>
+        </div>
+
+        <div *ngIf="products.length > 0" fxLayout="row wrap">
+            <div fxFlex="100"> 
+                <mat-card class="p-0 text-center">           
+                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5" (pageChange)="onPageChanged($event)"></pagination-controls>
+                </mat-card>
+            </div>
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

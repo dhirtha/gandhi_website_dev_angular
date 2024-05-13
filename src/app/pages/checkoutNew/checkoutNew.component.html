@@ -1,0 +1,168 @@
+<mat-spinner *ngIf="totalAmount == 0" style="margin:0 auto;"></mat-spinner>
+
+<h6 class="text-center text-muted" style="margin-left: 20px;margin-top: 10px;">DISPATCH INFORMATION</h6>
+
+<form [formGroup]="billingForm">     
+    
+    <div *ngIf="isCustomised" class="text-center">
+        <div *ngIf="isCustomised && !isCustomisedByHand" class="text-center">
+            While creating your account you have choosed the below option for dispatch.<br> 
+            You may temporary change the option for this particular order.<br> 
+            In case you want permanent change please click here 
+            (<a href="/account/addresses">Change</a>)
+        </div><br>
+        <div *ngIf="isCustomisedByHand">
+            <div class="form-field-div">
+                <span style="text-decoration: underline;">PICK UP ADDRESS</span><br>
+                <mat-icon>location_on</mat-icon><span>686 Commercial Compound, Ghat Road, Nagpur - 440018</span><br>
+                <br>
+                <input type="checkbox" value="By Hand" [disabled]="true" [checked]="isCustomisedByHand" (change)="isCustomisedByHand = !isCustomisedByHand"> Pick Up from our factory
+            </div><br>
+        </div>
+        
+        
+        <div *ngIf="!isCustomisedByHand" fxLayout="row" fxLayoutAlign="center center" class="p-1" class="text-center"> 
+            <div>
+                <mat-form-field appearance="outline" class="w-50">
+                    <input type="text" placeholder="State" matInput [readonly]="true" [formControl]="stateCtrl" [(ngModel)]="custState" (onSelectionChange)="filterCities(custState, $event)" [matAutocomplete]="state">
+                    <mat-autocomplete #state="matAutocomplete">
+                        <mat-option *ngFor="let state of filteredState | async" (onSelectionChange)="filterCities(state, $event)" [value]="state.name">
+                            {{state.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field><br>
+                
+                <mat-form-field appearance="outline" class="w-50">
+                    <input type="text" placeholder="City" matInput [readonly]="true" [formControl]="cityCtrl" [(ngModel)]="custCity" [matAutocomplete]="city">
+                    <mat-autocomplete #city="matAutocomplete">
+                        <mat-option *ngFor="let city of filteredCity | async" (onSelectionChange)="getTravelLst(city.name, $event)" [value]="city.name">
+                            {{city.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field><br>
+                
+                <mat-form-field appearance="outline" class="w-50">
+                    <mat-select placeholder="Select Travel" [disabled]="true" [(ngModel)]="v_customisedCustTravel" formControlName="travel">
+                        <mat-option *ngFor="let ref of travelCustomisedLst; let i = index" [value]="ref.id"  (onSelectionChange)="selectedCustomisedDeliveryLocation(i, $event, ref)">{{ref.travelName}}</mat-option>
+                    </mat-select>
+                </mat-form-field><br>
+
+                <mat-select class="w-50" style="text-align: left;border: 1px solid lightgray;font-size: 11px;padding: 5px;border-radius: 1px;" [disabled]="true" [(value)]="customisedPaymentMode" *ngIf="selectedCustomisedTravelPaymentMode == 'Both'" placeholder="Payment Mode">
+                    <mat-option value="Paid" (onSelectionChange)="selectedCustomisedPaymentMode('Paid', $event)">Paid</mat-option>
+                    <mat-option value="ToPay" (onSelectionChange)="selectedCustomisedPaymentMode('ToPay', $event)">ToPay</mat-option>
+                </mat-select><br><br><br>
+
+                <mat-radio-group style="font-size: 14px;" *ngIf="isCustomised" aria-label="Select an option" fxLayout="column" fxLayoutAlign="center" name="methods" required>
+                    <mat-radio-button [checked]="paymentType === 'Full'"  style="margin-bottom: 5px;" color="primary" (click)="fullPartial('Full')" value="Full" checked="true">
+                        TOTAL ORDER AMOUNT (<sapn style="font-weight: bold;">{{ orderTotal | number : '1.2-2'}}</sapn>) + 
+                        TRAVEL CHARGES (<sapn style="font-weight: bold;">{{ selectedTotalTravelRate | number : '1.2-2'}}</sapn>) = 
+                        <span style="font-weight: bold;">{{totalAmount | number : '1.2-2'}}</span>
+                    </mat-radio-button>
+                    <br>
+                    <mat-radio-button *ngIf="!isCreditCustomer && paperAmount != 0" [checked]="paymentType === 'Partial'" color="primary" (click)="fullPartial('Partial')" value="Partial">
+                        MINIMUM AMOUNT TO BE PAID&nbsp;&nbsp;<sapn style="font-weight: bold;">{{ paperAmount | number : '1.2-2'}}</sapn>
+                    </mat-radio-button>
+                </mat-radio-group>
+
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    
+    <div *ngIf="!isCustomised && !isByHand" class="text-center">
+        While creating your account you have choosed the below option for dispatch.<br> 
+        You may temporary change the option for this particular order.<br> 
+        In case you want permanent change please click here 
+        (<a href="/account/addresses">Change</a>)
+    </div><br><br>
+    
+    <div *ngIf="!isCustomised" fxLayout="row" fxLayoutAlign="center center" class="p-1" > 
+        <div>
+            <div *ngIf="!isByHand">
+                <div style="width: 250px;height:40px;padding: 0px;">
+                    <div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input type="text" placeholder="State" matInput [formControl]="stateCtrl" [(ngModel)]="custState" (onSelectionChange)="filterCities(custState, $event)" [matAutocomplete]="state">
+                            <mat-autocomplete #state="matAutocomplete">
+                                <mat-option *ngFor="let state of filteredState | async" (onSelectionChange)="filterCities(state, $event)" [value]="state.name">
+                                    {{state.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div style="width: 250px;height:40px;padding:0px;">
+                    <div>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <input type="text" placeholder="City" matInput [formControl]="cityCtrl" [(ngModel)]="custCity" [matAutocomplete]="city">
+                            <mat-autocomplete #city="matAutocomplete">
+                                <mat-option *ngFor="let city of filteredCity | async" (onSelectionChange)="getTravelLst(city.name, $event)" [value]="city.name">
+                                    {{city.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isByHand" style="width: 250px;font-size: 10px;">
+                <mat-form-field appearance="outline" class="w-100" >
+                    <mat-select placeholder="Select Travel" [(ngModel)]="v_custTravel" formControlName="travel">
+                        <mat-option *ngFor="let ref of travelLst" [value]="ref.id"  (onSelectionChange)="selectedDeliveryLocation(ref, $event)">{{ref.travelName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-select style="text-align: left;border: 1px solid lightgray;font-size: 11px;padding: 5px;border-radius: 1px;" [(value)]="paymentMode" *ngIf="selectedTravelPaymentMode == 'Both'" placeholder="Payment Mode">
+                    <mat-option value="Paid" (onSelectionChange)="selectedPaymentMode('Paid', $event)">Paid</mat-option>
+                    <mat-option value="ToPay" (onSelectionChange)="selectedPaymentMode('ToPay', $event)">ToPay</mat-option>
+                </mat-select><br><br>
+                <input type="checkbox" value="By Hand" [checked]="isByHand" (change)="isByHand = !isByHand" (click)="deliveryByHand($event)"> Pick Up from our factory
+            </div>
+            <div *ngIf="isByHand" style="width: 250px;font-size: 10px;">
+                <div style="width: 280px;font-size: 18px;text-align: center">
+                    <span style="text-decoration: underline;">PICK UP ADDRESS</span><br>
+                    <mat-icon>location_on</mat-icon><span>686 Commercial Compound, Ghat Road, Nagpur - 440018</span><br>
+                </div><br>
+                <input type="checkbox" value="By Hand" [checked]="isByHand" (change)="isByHand = !isByHand" (click)="deliveryByHand($event)"> Pick Up from our factory
+            </div>
+            
+            <mat-radio-group style="font-size: 10px;" formControlName="deliveryMethod" [(ngModel)]="defDelMode" fxLayout="column" fxLayoutAlign="center" required name="methods">
+                <mat-radio-button *ngFor="let method of standardDeliveryMethodss" color="primary" (click)="deliveryMethod(method)" [value]="method" class="mt-1">
+                    <b>{{method?.name}}</b> {{method?.desc}} 
+                    <span style="color: #73AD21;font-weight: bold;font-size: 10px;">
+                        {{method?.dispatchDt}}
+                    </span>
+                </mat-radio-button>
+            </mat-radio-group> 
+            
+             <div style="text-align: left;margin-left: 90px;margin-top: 20px;">
+                <div class="mat-cell text-right" style="display: inline-block;"><b>
+                    <div fxLayout="column" fxLayoutAlign="center end" class="grand-total px-2">
+                        <span style="font-size: 10px !important;" *ngIf="totalAmount != 0">Order Total</span>
+                        <span style="font-size: 10px !important;" *ngIf="!isCustomised">{{deliveryMode}}</span>
+                        <span style="font-size: 10px !important;" class="text-muted" *ngIf="totalAmount != 0">Travel Charges</span>
+                        <span style="font-size: 12px !important;font-weight: bold;" class="new-price" *ngIf="totalAmount != 0">Grand Total</span>
+                    </div></b>        
+                </div>
+                <div class="mat-cell text-right" style="display: inline-block;"><b>
+                    <div fxLayout="column" fxLayoutAlign="center end" class="grand-total">
+                        <span style="font-size: 10px !important;">{{ orderTotal | number : '1.2-2'}}</span>
+                        <span style="font-size: 10px !important;" *ngIf="!isCustomised">{{ deliveryAmount | number : '1.2-2'}}</span>
+                        <span style="font-size: 10px !important;" class="text-muted">{{selectedTotalTravelRate | number : '1.2-2'}}</span>
+                        <span style="font-size: 12px !important;font-weight: bold;" class="new-price">{{totalAmount | number : '1.2-2'}}</span>
+                    </div></b>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+        <button mat-raised-button (click)="saveQuotation()" color="primary" *ngIf="totalAmount != 0">Proceed</button>
+    </div>
+    
+    
+    
+</form>
+
+

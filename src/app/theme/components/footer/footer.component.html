@@ -1,0 +1,165 @@
+<!--<footer *ngIf="!isSiggnedIn" class="bg-primary footer" style="background-color: #292929 !important">
+
+    <div fxLayout="row wrap" fxLayoutAlign="space-between" class="py-3 border-bottom-mute theme-container">        
+        <div fxFlex="100" fxFlex.gt-sm="30" fxFlex.sm="30"> 
+            <h3 class="col-title" style="font-size: 16px !important;">USEFUL LINKS</h3>
+            <p class="mt-2" *ngIf="isSiggnedIn"><a routerLink="/account" class="link secondary-color">My Account</a></p>
+            <p class="mt-1"><a routerLink="/contact" class="link secondary-color">Contact</a></p>
+            <p class="mt-1" *ngIf="isSiggnedIn"><a routerLink="/wishlist" class="link secondary-color">Wishlist</a></p>
+            <p class="mt-1" *ngIf="isSiggnedIn"><a routerLink="/checkout" class="link secondary-color">Checkout</a></p>
+            <p class="mt-1"><a href="http://colorgandhi.s3-website.ap-south-1.amazonaws.com/" class="link secondary-color">Admin Panel</a></p>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="30" fxFlex.sm="30"> 
+            <h3 class="col-title" style="font-size: 16px !important;">USEFUL LINKS</h3>
+            <p class="mt-2"><a routerLink="/aboutus" class="link secondary-color">About Us</a></p>
+            <p class="mt-1"><a routerLink="/termsofuse" class="link secondary-color">Terms Of Use</a></p>
+            <p class="mt-1"><a routerLink="/privacypolicy" class="link secondary-color">Privacy Policy</a></p>
+            <p class="mt-1"><a routerLink="/refundpolicy" class="link secondary-color">Refund Policy</a></p>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="40" fxFlex.sm="40" ngClass.xs="mt-2" class="contact-information"> 
+            <h3 class="col-title" style="font-size: 16px !important;">CONTACT INFORMATION</h3>            
+            <p fxLayout="row" fxLayoutAlign="start center" class="mt-2 secondary-color">
+                <mat-icon>location_on</mat-icon>
+                <span>686  Commercial Compound,  Ghat Road, Nagpur - 440018</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center" class="mt-1 secondary-color">
+                <mat-icon>call</mat-icon>
+                <span>+91-8605003000</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center" class="mt-1 secondary-color">
+                <mat-icon>mail_outline</mat-icon>
+                <span> admin@aaryancards.com</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center" class="mt-1 secondary-color">
+                <mat-icon>schedule</mat-icon>
+                <span>Monday - Saturday / 11:00 AM to 7:00 PM</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center" class="mt-1 secondary-color">
+                <mat-icon>directions</mat-icon>
+                <a (click)="getDirection()" class="link secondary-color">Get directions</a>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center" class="mt-1 secondary-color">
+                <mat-icon>directions_bus</mat-icon>
+                <span (click)="getDirection()">Routes to us</span>
+            </p>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="copyright secondary-color theme-container">
+        <p ngClass.xs="mt-1">Copyright © 2021 All Rights Reserved</p>
+    </div>
+</footer>-->
+
+
+
+<!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
+      (dragEnd)="markerDragEnd($event)"></agm-marker>
+  </agm-map>-->
+
+<footer *ngIf="!isSiggnedIn" id="footer" >
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <!--          <div class="col-lg-3 col-md-6 footer-contact">
+                            <h3>OnePage</h3>
+                            <p>
+                              A108 Adam Street <br>
+                              New York, NY 535022<br>
+                              United States <br><br>
+                              <strong>Phone:</strong> +1 5589 55488 55<br>
+                              <strong>Email:</strong> info@example.com<br>
+                            </p>
+                          </div>-->
+
+                <div class="col-lg-2 col-md-2 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="/home" class="link secondary-color">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="/contact" class="link secondary-color">Contact</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="/aboutus" class="link secondary-color">About Us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="/termsofuse" class="link secondary-color">Terms Of Use</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="/privacypolicy" class="link secondary-color">Privacy Policy</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a routerLink="/refundpolicy" class="link secondary-color">Refund Policy</a></li>
+                        <!--<li><i class="bx bx-chevron-right"></i> <a href="https://admin.aaryancards.com" class="link secondary-color">Admin Panel</a></li>-->
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li *ngFor="let lst of productGrp1">
+                            <i class="bx bx-chevron-right"></i> <a (click)="goToProduct(lst)" routerLink="/home" class="link secondary-color">{{lst.prodName}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>&nbsp;</h4>
+                    <ul>
+                        <li *ngFor="let lst of productGrp2">
+                            <i class="bx bx-chevron-right"></i> <a (click)="goToProduct(lst)" routerLink="/home" class="link secondary-color">{{lst.prodName}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="font-size: 12px;" class="col-lg-4 col-md-2 footer-links">
+                    <h4>Contact Information</h4>
+                    <ul>
+                        <li>
+                        <mat-icon style="font-size: 12px;">location_on</mat-icon>
+                        <span>686  Commercial Compound,  Ghat Road, Nagpur - 440018.</span>
+                        </li>
+                        <li>
+                        <mat-icon style="font-size: 12px;">call</mat-icon>
+                        <span>+91-8605003000</span>
+                        </li>
+                        <li>
+                        <mat-icon style="font-size: 12px;">mail_outline</mat-icon>
+                        <span> admin@aaryancards.com</span>
+                        </li>
+                        <li>
+                        <mat-icon style="font-size: 12px;">schedule</mat-icon>
+                        <span>Monday - Saturday / 11:00 AM to 7:00 PM</span>
+                        </li>
+                        <li>
+                        <mat-icon style="font-size: 12px;">directions</mat-icon>
+                        <a (click)="getDirection()" class="link secondary-color">Get directions</a>
+                        </li>
+                        <li>
+                        <mat-icon style="font-size: 12px;">directions_bus</mat-icon>
+                        <span (click)="getDirection()">Routes to us</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--          <div class="col-lg-4 col-md-6 footer-newsletter">
+                            <h4>Join Our Newsletter</h4>
+                            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                            <form action="" method="post">
+                              <input type="email" name="email"><input type="submit" value="Subscribe">
+                            </form>
+                          </div>-->
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-md-flex py-1">
+
+        <div class="me-md-auto text-center text-md-start">
+            <div class="copyright">
+                &copy; Copyright 2021 <strong><span>Aaryan Cards</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!--Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>-->
+            </div>
+        </div>
+        <div class="social-links text-center text-md-right pt-3 pt-md-0">
+            <!--        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                    <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>-->
+        </div>
+    </div>
+</footer>

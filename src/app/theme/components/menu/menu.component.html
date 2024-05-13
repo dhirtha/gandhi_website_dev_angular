@@ -1,0 +1,262 @@
+<header id="header" class="fixed-top" style="">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo">
+            <a href="index.html">
+                <!--<img src="../../../../assets/images/others/1.png" alt=""/>-->
+                <!--<img src="../../../../assets/images/others/2.png" alt=""/>-->
+                <!--<img src="../../../../assets/images/others/3.png" alt=""/>-->
+                <img src="../../../../assets/images/others/4.png" alt=""/>
+                <!--Aaryan Cards-->
+            </a>
+        </h1>
+        <!--<a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+        <nav id="navbar" class="navbar">
+            <ul *ngIf="isSiggnedIn">
+                <li><a class="nav-link scrollto" href="/account/dashboard">Home</a></li>
+                <!--<li><a class="nav-link scrollto" href="/home">Products</a></li>-->
+                <li class="dropdown"><a class="nav-link scrollto" href="/home"><span>Standard Product</span></a>
+                    <ul>
+                        <li *ngFor="let prod of products">
+                            <a style="cursor: pointer;" (click)="goToProduct(prod)">{{prod.prodName}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a class="nav-link scrollto" href="/customisedQuotation">Customised Quotation</a></li>
+                <li><a class="nav-link scrollto" href="/account/orders">Order History</a></li>
+                
+                <li>
+                    <a class="nav-link scrollto" href="/wishlist">Favorite Products</a>
+                </li>
+                
+                
+                
+                
+                <!--CART--> 
+<!--                <li>
+                    <button style="color: #2A6871;" matTooltip="Cart" *ngIf="isSiggnedIn" mat-button [matMenuTriggerFor]="cartMenu" #cartMenuTrigger="matMenuTrigger" class="flex-row-button">
+          
+                        <mat-icon *ngIf="appService.Data.cartList.length > 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;color: #73AD21;" (click)="goTo('cart')">add_shopping_cart</mat-icon>
+                        <mat-icon *ngIf="appService.Data.cartList.length == 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;" >add_shopping_cart</mat-icon>
+                        <span style="font-weight: 400" *ngIf="appService.Data.cartList.length > 0" class="cart-items-count"> ({{appService.Data.cartList.length}})</span>
+                        <div fxLayout="column" fxLayoutAlign="center center" fxShow="false" fxShow.gt-xs class="top-cart">
+                        </div>
+                        <mat-icon class="mat-icon-sm">arrow_drop_down</mat-icon>
+                    </button>
+                    <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="top-menu-dropdown cart-dropdown">
+                        <ng-template matMenuContent>
+                            <span class="d-block">
+                                <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                                    <b><span>{{appService.Data.totalCartCount}} ITEM<span *ngIf="appService.Data.totalCartCount > 1">S</span></span></b>
+                                </div>
+                                <div class="divider mt-1"></div>
+                                <div *ngIf="appService.Data.cartList.length == 0" class="py-1 text-muted text-center">You have no items in your shopping cart.</div>
+                                <mat-list>
+                                    <mat-list-item *ngFor="let product of appService.Data.cartList">                                   
+                                        <h3 matLine class="text-muted"> {{product.name}} </h3>
+                                        <p matLine class="text-muted">
+                                            <bdi> ₹{{product.rate | number : '1.2-2'}}</bdi>
+                                        </p>
+                                        <button mat-icon-button color="warn" class="remove" (click)="remove(product);stopClickPropagate($event)" matTooltip="Remove" matTooltipPosition="before">
+                                            <mat-icon class="mat-icon-sm">close</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-list>
+                                <div *ngIf="appService.Data.cartList.length > 0" class="cart-dropdown-footer">
+                                    <div class="divider mt-1"></div>
+                                    <div fxLayout="row" fxLayoutAlign="space-between center" class="mt-1">
+                                        <i style="font-size: 20px;cursor: pointer;" (click)="clear();stopClickPropagate($event)" matTooltip="Clear" class="bi bi-trash"></i>
+                                        <a href="/cart" matTooltip="Cart"><i style="font-size: 22px;" class="bi bi-cart4"></i></a>
+                                    </div>
+                                </div>
+                            </span>
+                        </ng-template>
+                    </mat-menu>
+                </li>-->
+                
+                
+                <!--cart end-->
+                
+                
+                
+                
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <li>
+                    <app-top-menu style="color: #2A6871;font-weight: bold"></app-top-menu>
+<!--                    <a href="#"><span>Account</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="/account/dashboard">Account Dashboard</a></li>
+                        <li><a href="/account/information">Account Information</a></li>
+                        <li><a href="/account/addresses">Travel Destination</a></li>
+                        <li><a href="/account/orders">Order History</a></li>
+                        <li><a (click)="onLoggedout()">Log Out</a></li>
+                    </ul>-->
+                </li>
+                
+                <li>
+                    <a class="nav-link scrollto" href="/cart">
+                        <img height="28px" width="45px" src="../../../../assets/images/others/Cart new.png" alt=""/>
+<!--                        <mat-icon *ngIf="appService.Data.cartList.length == 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;" >add_shopping_cart</mat-icon>
+                        <mat-icon *ngIf="appService.Data.cartList.length > 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;color: #73AD21;transform: scale(1.5);" (click)="goTo('cart')">add_shopping_cart</mat-icon>-->
+                        <!--<sup style="font-weight: bold;font-size: 12px;margin-left: -36px;margin-top: -5px;" *ngIf="appService.Data.cartList.length > 0">{{appService.Data.cartList.length}}</sup>-->
+                        <sup class="cartBadge">{{appService.Data.cartList.length}}</sup>
+                        &nbsp;&nbsp;<sub>Cart</sub>
+                        <!--&nbsp;&nbsp;Cart-->
+                    </a> 
+                    <!--<mat-icon matBadge="15" matBadgeColor="warn">home</mat-icon>-->
+<!--                    <a class="nav-link scrollto" href="/cart">
+                        Cart
+                        <sup class="cartBadge">{{appService.Data.cartList.length}}</sup>
+                    </a> -->
+                </li>
+                
+            </ul>
+                <span *ngIf="!isSiggnedIn" ><a href="/login">Login</a></span>
+<!--                    <a class="nav-link scrollto" href="/cart" *ngIf="isSiggnedIn" fxShow="true" fxHide.gt-sm>
+                        <mat-icon *ngIf="appService.Data.cartList.length == 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;" >add_shopping_cart</mat-icon>
+                        <mat-icon *ngIf="appService.Data.cartList.length > 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;color: #73AD21;" (click)="goTo('cart')">add_shopping_cart</mat-icon>
+                        <sup style="font-weight: 500;font-size: 10px;margin-left: -5px;" *ngIf="appService.Data.cartList.length == 0">({{appService.Data.cartList.length}})</sup>
+                        <sup style="font-weight: 600;font-size: 12px;margin-left: -5px;" *ngIf="appService.Data.cartList.length > 0">{{appService.Data.cartList.length}}</sup>
+                        <span style="font-weight: 500;font-size: 10px;margin-left: -5px;" *ngIf="appService.Data.cartList.length > 0" class="cart-items-count"> ({{appService.Data.cartList.length}})</span>
+                    </a> &nbsp;&nbsp;-->
+                    <a class="nav-link scrollto" href="/cart" *ngIf="isSiggnedIn" fxShow="true" fxHide.gt-sm>
+                        <img height="28px" width="45px" src="../../../../assets/images/others/Cart new.png" alt=""/>
+                        <sup class="cartBadge">{{appService.Data.cartList.length}}</sup>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp; 
+                <i  *ngIf="isSiggnedIn" class="bi bi-list mobile-nav-toggle" (click)="sidenav.toggle()"></i>
+        </nav> 
+    </div>
+        <mat-sidenav-container fxFlexFill style="" fxShow="true" fxHide.gt-sm>
+            <mat-sidenav #sidenav style="position: fixed;z-index: 9999;">
+                <mat-nav-list>
+                    <ul *ngIf="isSiggnedIn">
+                        <li><a class="nav-link scrollto" href="/home">Products</a></li>
+                        <li><a class="nav-link scrollto" href="/customisedQuotation">Customised Quotation</a></li>
+                        <li><a class="nav-link scrollto" href="/account/orders">Order History</a></li>
+                        <li><a class="nav-link scrollto" href="/cart">Cart</a></li>
+                        <li><a class="nav-link scrollto" href="/wishlist">Wishlist</a></li>
+                        <li><a class="nav-link scrollto" href="/account/dashboard">Account</a></li>
+                        <li><a class="nav-link scrollto" (click)="logOut()">Logout</a></li>
+                    </ul>
+                    <ul *ngIf="!isSiggnedIn">
+                        <li><a class="nav-link scrollto" href="/login">Login</a></li>
+                    </ul>
+                </mat-nav-list>
+            </mat-sidenav>
+        </mat-sidenav-container>
+</header>
+
+
+
+
+
+
+
+
+
+
+<!--    <mat-toolbar style="position: fixed;z-index: 9999;background-color: transparent;box-shadow: none;" class="top-navbar mat-elevation-z2">
+    <mat-toolbar-row style="background-color: whitesmoke; color: black; height: 30px;">
+        
+    </mat-toolbar-row>-->   
+
+<!--<div style="height: 30px;">
+<mat-toolbar style="position: fixed;z-index: 9999;background-color: transparent;box-shadow: none;" class="top-navbar mat-elevation-z2">    
+    <mat-toolbar-row style="background-color: whitesmoke;height: 30px;" fxShow="true" fxHide.lt-md>
+        <div style="font-size: 10px;letter-spacing: 1px;">
+            <span style="cursor: pointer;font-weight: 400" (click)="customerSupport()">Customer Support</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div style="display: inline-block;border-right: 1px solid black;">&nbsp;</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="font-weight: 400">+91 860 500 3000</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div style="display: inline-block;border-right: 1px solid black;">&nbsp;</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="font-weight: 400">OFFICE TIME : MONDAY To SATURDAY 11:00 AM TO 7:00 PM</span>
+        </div>
+        <div align="right" style="float: right;text-align: right;" fxFlex fxLayoutAlign="flex-end right">
+            <span *ngIf="isSiggnedIn" fxShow="false" fxShow.gt-sm>
+                <a style="font-weight: 400" mat-button routerLink="/wishlist" matTooltip="Favourite Products"><mat-icon style="font-size: 20px;margin-bottom: -5px;font-weight: 100;">favorite_outline</mat-icon>&nbsp;<span *ngIf="settings.rtl">&rlm;</span>({{appService.Data.wishList.length}})</a>
+            </span>  
+            <button matTooltip="Cart" *ngIf="isSiggnedIn" mat-button [matMenuTriggerFor]="cartMenu" #cartMenuTrigger="matMenuTrigger" class="flex-row-button">
+            <div style="display: inline-block;border-right: 1px solid black;">&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <mat-icon *ngIf="appService.Data.cartList.length > 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;color: #73AD21;">add_shopping_cart</mat-icon>&nbsp;
+                <mat-icon *ngIf="appService.Data.cartList.length == 0" style="font-size: 20px;margin-bottom: -5px;font-weight: 100;">add_shopping_cart</mat-icon>&nbsp;
+                <span style="font-weight: 400" *ngIf="appService.Data.cartList.length > 0" class="cart-items-count"> ({{appService.Data.cartList.length}})</span>
+                <div fxLayout="column" fxLayoutAlign="center center" fxShow="false" fxShow.gt-xs class="top-cart">
+                </div>
+                <mat-icon class="mat-icon-sm">arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="top-menu-dropdown cart-dropdown">
+                <ng-template matMenuContent>
+                    <span class="d-block">
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                            <b><span>{{appService.Data.totalCartCount}} ITEM<span *ngIf="appService.Data.totalCartCount > 1">S</span></span></b>
+                        </div>
+                        <div class="divider mt-1"></div>
+                        <div *ngIf="appService.Data.cartList.length == 0" class="py-1 text-muted text-center">You have no items in your shopping cart.</div>
+                        <mat-list>
+                            <mat-list-item *ngFor="let product of appService.Data.cartList">                                   
+                                <h3 matLine class="text-muted"> {{product.name}} </h3>
+                                <p matLine class="text-muted">
+                                    <bdi> ₹{{product.rate | number : '1.2-2'}}</bdi>
+                                </p>
+                                <button mat-icon-button color="warn" class="remove" (click)="remove(product);stopClickPropagate($event)" matTooltip="Remove" matTooltipPosition="before">
+                                    <mat-icon class="mat-icon-sm">close</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-list>
+                        <div *ngIf="appService.Data.cartList.length > 0" class="cart-dropdown-footer">
+                            <div class="divider mt-1"></div>
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="mt-1">
+                                <button mat-mini-fab color="warn" (click)="clear();stopClickPropagate($event)" matTooltip="Clear All" matTooltipPosition="after">
+                                    <b>Clear</b>
+                                </button>
+                                <a [routerLink]="['/cart']" mat-mini-fab color="primary" matTooltip="Checkout" matTooltipPosition="before">
+                                    <b>Cart</b>
+                                </a>
+                            </div>
+                        </div>
+                    </span>
+                </ng-template>
+            </mat-menu>
+            <a style="color: black;font-size: 11px;font-weight: 400;" mat-button routerLink="/login" *ngIf="!isSiggnedIn">Log In</a>
+        </div> 
+    </mat-toolbar-row>
+    <mat-toolbar-row style="background-color: #292929;height: 30px;">
+        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+            <mat-icon>menu</mat-icon>
+        </button>
+        <div style="color: lightgray;letter-spacing: 1px;" fxShow="true" fxHide.lt-md>
+            <a id="headText" style="font-size: 12px;" mat-button routerLink="/home" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">HOME</a>
+            <a id="headText" style="font-size: 12px;" mat-button routerLink="/customisedQuotation" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Customised Quotation</a> 
+            <a id="headText" style="font-size: 12px;" *ngIf="isSiggnedIn" mat-button routerLink="/account/orders" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Order History</a> 
+            <a id="headText" style="font-size: 12px;" *ngIf="!isSiggnedIn" mat-button routerLink="/contact" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{ 'NAV.CONTACT' | translate }}</a>
+        </div>
+        <div *ngIf="isSiggnedIn" align="right" style="float: right;text-align: right;color: white;" fxFlex fxLayoutAlign="flex-end center">
+            <app-top-menu></app-top-menu>
+        </div> 
+        <div *ngIf="!isSiggnedIn" (click)="sidenav.close()" style="text-align: right;color: white;width: 100%;" fxShow="true" fxHide.gt-sm>
+            <a style="font-size: 12px;color: whitesmoke;" routerLink="/login" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Login</a><br>
+        </div>
+    </mat-toolbar-row>
+    
+</mat-toolbar>
+
+<mat-sidenav-container fxFlexFill style="z-index: 999;background-color: #292929;height: 30px;" fxShow="true" fxHide.gt-sm>
+    <mat-sidenav #sidenav style="position: fixed;z-index: 9999;">
+      <mat-nav-list>
+          <br><br>
+            <a id="sideNavHead" style="font-size: 12px;" (click)="goTo('/home')" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Home</a><br>
+            <a id="sideNavHead" style="font-size: 12px;" (click)="goTo('/customisedQuotation')" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Customised Quotation<br></a>
+            <a id="sideNavHead" style="font-size: 12px;" *ngIf="isSiggnedIn" (click)="goTo('/account/orders')" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Order History<br></a>
+            <a id="sideNavHead" style="font-size: 12px;" *ngIf="isSiggnedIn" (click)="goTo('/cart')" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Cart<br></a>
+            <a id="sideNavHead" style="font-size: 12px;" *ngIf="isSiggnedIn" (click)="goTo('/wishlist')" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Wishlist<br></a> 
+            <a id="sideNavHead" style="font-size: 12px;" (click)="goTo('/contact')" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{ 'NAV.CONTACT' | translate }}</a><br>
+      </mat-nav-list>
+    </mat-sidenav>
+</mat-sidenav-container>
+</div>-->
+

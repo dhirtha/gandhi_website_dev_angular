@@ -1,0 +1,21 @@
+<h6 class="text-center">UPLOAD JPEG FILE<span style="color: #FF2E2E"> 700 DPI ONLY</span></h6>
+
+<table>
+    <tr>
+        <td>
+            <div *ngIf="!pageParam.paramObj.isFileUploaded" class="mat-cell text-center"><a style="width: 170px;" *ngIf="!pageParam.paramObj.isFileUploaded" (click)="getFileLink(pageParam.paramObj)" mat-raised-button color="primary">UPLOAD FILE LATER</a></div>
+            <div style="font-size: 12px;padding-top: 5px;text-justify: ">(Click here to generate link and forward to your registered email id and whatsapp number)<br>
+                <span style="font-weight: bold">Note - </span> you can forward the generated link to any other person for uploading your file, HE WON'T BE ABLE TO SEE THE AMOUNT OF ORDER</div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div *ngIf="!pageParam.paramObj.isFileUploaded" class="mat-cell text-center"><a style="width: 170px;" *ngIf="!pageParam.paramObj.isFileUploaded" (click)="uploadFileNow(pageParam.paramObj)" mat-raised-button color="primary">UPLOAD NOW</a></div>
+            <span style="font-size: 12px;padding-top: 5px;">(Click here to upload file from Google Drive or your Device now)<br>
+                <span style="font-weight: bold">Note - TO ATTACH GB's OF FILE IN SECONDS </span> first upload file to your Google Drive >> select attach file >> select "MY DRIVE"</span>
+        </td>
+    </tr>
+</table>
+<div class="text-center">
+    <button mat-button (click)="close()">Close</button>
+</div>
